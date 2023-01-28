@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <title>Airport Website</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Dark mode -->
+    <script type="text/javascript">
+      var theme = localStorage.getItem("data-theme");
+      var root = document.documentElement;
+      if (theme === "dark" && theme !== undefined) {
+        root.classList.add("dark-mode");
+      } else {
+        root.classList.remove("dark-mode");
+      }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href=" {% static 'assets/images/favicon.png' %} " />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link rel="stylesheet" href=" {% static 'css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap' %} " />
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/font-awesome/css/all.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %} " />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/css/style.css' %} " />
+  </head>
+
+  <body>
+    <!-- Pre loader -->
+    <div class="preloader">
+      <div class="preloader-item">
+        <div class="spinner-grow text-primary"></div>
+      </div>
+    </div>
+    <!-- Header START -->
+    <header class="navbar-light header-sticky">
+      <!-- Logo Nav START -->
+      <nav class="navbar navbar-expand-xl">
+        <div class="container">
+          <!-- Logo START -->
+          <a class="navbar-brand" href="{% url 'index' %}">
+            <img class="light-mode-item navbar-brand-item" src=" {% static 'assets/images/logo.svg' %} " alt="logo" />
+            <img class="dark-mode-item navbar-brand-item" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" />
+          </a>
+          <!-- Logo END -->
+
+          <!-- Profile and Notification START -->
+          <ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+            <!-- Profile dropdown START -->
+            <li class="nav-item dropdown">
+              <!-- Avatar -->
+              <a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+                <img class="avatar-img rounded-2" src=" {% static 'assets/images/avatar/01.jpg' %} " alt="avatar" />
+              </a>
+
+              <ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+                <!-- Profile info -->
+                <li class="px-3 mb-3">
+                  <div class="d-flex align-items-center">
+                    <!-- Avatar -->
+                    <div class="avatar me-3">
+                      <img class="avatar-img rounded-circle shadow" src=" {% static 'assets/images/avatar/01.jpg' %} " alt="avatar" />
+                    </div>
+                    <div>
+                      <a class="h6 mt-2 mt-sm-0" href="/account-profile">{{ user.first_name }} {{ user.last_name }}</a>
+                      <p class="small m-0">{{ user.username }}</p>
+                    </div>
+                  </div>
+                </li>
+
+                <!-- Links -->
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="/account-bookings"><i class="bi bi-bookmark-check fa-fw me-2"></i>My Bookings</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/account-profile"><i class="bi bi-gear fa-fw me-2"></i>Settings</a>
+                </li>
+                <li>
+                  <a class="dropdown-item bg-danger-soft-hover" href="{% url 'logout' %}"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+
+                <!-- Dark mode switch START -->
+                <li>
+                  <div class="modeswitch-wrap" id="darkModeSwitch">
+                    <div class="modeswitch-item">
+                      <div class="modeswitch-icon"></div>
+                    </div>
+                    <span>Dark mode</span>
+                  </div>
+                </li>
+                <!-- Dark mode switch END -->
+              </ul>
+            </li>
+            <!-- Profile dropdown END -->
+          </ul>
+          <!-- Profile and Notification START -->
+        </div>
+      </nav>
+      <!-- Logo Nav END -->
+    </header>
+    <!-- Header END -->
+
+    <!-- **************** MAIN CONTENT START **************** -->
+    <main>
+      <!-- =======================
+Main banner START -->
+      <section>
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-10 text-center mx-auto">
+              <!-- Image -->
+              <img src=" {% static 'assets/images/element/error.svg' %} " class="h-lg-500px mb-4" alt="" />
+              <!-- Title -->
+              <h1 class="display-1 text-primary mb-0">404</h1>
+              <!-- Subtitle -->
+              <h2>Oh no, something went wrong!</h2>
+              <!-- info -->
+              <p class="mb-4">Either something went wrong or something doesn't exist.</p>
+              <!-- Button -->
+              <a href="{% url 'index' %}" class="btn btn-light mb-0">Take me to Homepage</a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- =======================
+Main banner START -->
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
+
+    <!-- Footer START -->
+    <footer class="bg-dark p-3">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Widget -->
+          <div class="col-md-4">
+            <div class="text-center text-md-start mb-3 mb-md-0">
+              <a href="index"> <img class="h-30px" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" /> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Footer END -->
+
+    <!-- Back to top -->
+    <div class="back-top"></div>
+
+    <!-- Bootstrap JS -->
+    <script src=" {% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %} "></script>
+
+    <!-- ThemeFunctions -->
+    <script src=" {% static 'assets/js/functions.js' %} "></script>
+  </body>
+</html>

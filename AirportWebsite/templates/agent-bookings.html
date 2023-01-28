@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <title>Airport Website</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Dark mode -->
+    <script type="text/javascript">
+      var theme = localStorage.getItem("data-theme");
+      var root = document.documentElement;
+      if (theme === "dark" && theme !== undefined) {
+        root.classList.add("dark-mode");
+      } else {
+        root.classList.remove("dark-mode");
+      }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href=" {% static 'assets/images/favicon.png' %} " />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link rel="stylesheet" href=" {% static 'css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap' %} " />
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/font-awesome/css/all.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/apexcharts/css/apexcharts.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/choices/css/choices.min.css' %} " />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/css/style.css' %} " />
+  </head>
+
+  <body>
+    <!-- Pre loader -->
+    <div class="preloader">
+      <div class="preloader-item">
+        <div class="spinner-grow text-primary"></div>
+      </div>
+    </div>
+    <!-- Header START -->
+    <header class="navbar-light header-sticky">
+      <!-- Logo Nav START -->
+      <nav class="navbar navbar-expand-xl">
+        <div class="container">
+          <!-- Logo START -->
+          <a class="navbar-brand" href="{% url 'airline-index' %}">
+            <img class="light-mode-item navbar-brand-item" src=" {% static 'assets/images/logo.svg' %} " alt="logo" />
+            <img class="dark-mode-item navbar-brand-item" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" />
+          </a>
+          <!-- Logo END -->
+
+          <!-- Profile and Notification START -->
+          <ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+            <!-- Profile dropdown START -->
+            <div class="modeswitch-wrap" id="darkModeSwitch">
+              <div class="modeswitch-item">
+                <div class="modeswitch-icon"></div>
+              </div>
+            </div>
+            <li class="nav-item dropdown">
+              <!-- Avatar -->
+              <a class="dropdown-item bg-danger-soft-hover" href="{% url 'logout' %}"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a>
+
+              <!-- Links -->
+            </li>
+            <!-- Profile dropdown END -->
+          </ul>
+          <!-- Profile and Notification START -->
+        </div>
+      </nav>
+      <!-- Logo Nav END -->
+    </header>
+    <!-- Header END -->
+
+    <!-- **************** MAIN CONTENT START **************** -->
+    <main>
+      <!-- =======================
+Menu item START -->
+      <section class="pt-4">
+        {% csrf_token %}
+        <div class="container">
+          <div class="card rounded-3 border p-3 pb-2">
+            <!-- Avatar and info START -->
+            <div class="d-sm-flex align-items-center">
+              <div class="avatar avatar-xl mb-2 mb-sm-0">
+                {% if user.username == 'BL' %}
+                <img class="avatar-img rounded-circle" src=" {% static 'assets/images/avatar/BL.svg' %} " alt="" />
+                {% elif user.username == 'FLY' %}
+                <img class="avatar-img rounded-circle" src=" {% static 'assets/images/avatar/FLY.svg' %} " alt="" />
+                {% elif user.username == 'FO' %}
+                <img class="avatar-img rounded-circle" src=" {% static 'assets/images/avatar/FO.svg' %} " alt="" />
+                {% elif user.username == 'WIZ' %}
+                <img class="avatar-img rounded-circle" src=" {% static 'assets/images/avatar/WIZ.svg' %} " alt="" />
+                {% else %}
+                <img class="avatar-img rounded-circle" src=" {% static 'assets/images/avatar/TP.svg' %} " alt="" />
+                {% endif %}
+              </div>
+              <h4 class="mb-2 mb-sm-0 ms-sm-3"><span class="fw-light">Welcome,</span> {{ user.first_name }} {{ user.last_name }}</h4>
+            </div>
+            <!-- Avatar and info START -->
+
+            <!-- Responsive navbar toggler -->
+            <button class="btn btn-primary w-100 d-block d-xl-none mt-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#dashboardMenu" aria-controls="dashboardMenu">
+              <i class="bi bi-list"></i> Dashboard Menu
+            </button>
+
+            <!-- Nav links START -->
+            <div class="offcanvas-xl offcanvas-end mt-xl-3" tabindex="-1" id="dashboardMenu">
+              <div class="offcanvas-header border-bottom p-3">
+                <h5 class="offcanvas-title">Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#dashboardMenu" aria-label="Close"></button>
+              </div>
+              <!-- Offcanvas body -->
+              <div class="offcanvas-body p-3 p-xl-0">
+                <!-- Nav item -->
+                <div class="navbar navbar-expand-xl">
+                  <ul class="navbar-nav navbar-offcanvas-menu">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="agent-dashboard"><i class="bi bi-house-door fa-fw me-1"></i>Dashboard</a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link" href="agent-listings"><i class="bi bi-journals fa-fw me-1"></i>Listings</a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link" href="agent-bookings"><i class="bi bi-bookmark-heart fa-fw me-1"></i>Details</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- Nav links END -->
+          </div>
+        </div>
+      </section>
+      <!-- =======================
+Menu item END -->
+
+      <!-- =======================
+Content START -->
+      <section class="pt-0">
+        <div class="container vstack gap-4">
+          <!-- Title START -->
+          <div class="row">
+            <div class="col-12">
+              <h1 class="fs-4 mb-0"><i class="bi bi-bookmark-heart fa-fw me-1"></i>Details</h1>
+            </div>
+          </div>
+          <!-- Title END -->
+
+          <!-- Booking table START -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card border">
+                {% csrf_token %}
+                <!-- Card header START -->
+                <div class="card-header border-bottom col-md-12">
+                  <h5 class="card-header-title">Details<span class="badge bg-primary bg-opacity-10 text-primary ms-2">{{ f.flightCount }} Flights</span></h5>
+                </div>
+                <!-- Card header END -->
+
+                <!-- Card body START -->
+                <div class="card-body">
+                  <!-- Hotel room list START -->
+                  <div class="table-responsive border-0">
+                    <table class="table align-middle p-4 mb-0 table-hover table-shrink">
+                      <!-- Table head -->
+                      <thead class="table-light">
+                        <tr>
+                          <th scope="col" class="border-0 rounded-start">#</th>
+                          <th scope="col" class="border-0">Destination</th>
+                          <th scope="col" class="border-0">Pilot Assigned</th>
+                          <th scope="col" class="border-0">Date</th>
+                          <th scope="col" class="border-0">Status</th>
+                        </tr>
+                      </thead>
+
+                      <!-- Table body START -->
+                      <tbody class="border-top-0">
+                        {% for flight in flights %}
+                        <!-- Table item -->
+                        <tr>
+                          <td><h6 class="mb-0">{{ flight.FL_ID }}</h6></td>
+                          <td>
+                            <h6 class="mb-0">{{ flight.ARR_AP }}</h6>
+                          </td>
+                          <td>{{ flight.FName }}</td>
+                          <td><h6 class="mb-0 fw-light">{{ flight.DEP_DT|date:"M d" }} - {{ flight.ARR_DT|date:"M d" }}</h6></td>
+                          <td><div class="badge text-bg-success">{{ flight.Status }}</div></td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                      <!-- Table body END -->
+                    </table>
+                  </div>
+                  <!-- Hotel room list END -->
+                </div>
+                <!-- Card body END -->
+              </div>
+            </div>
+          </div>
+          <!-- Booking table END -->
+        </div>
+      </section>
+      <!-- =======================
+Content END -->
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
+
+    <!-- Footer START -->
+    <footer class="bg-dark p-3">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Widget -->
+          <div class="col-md-4">
+            <div class="text-center text-md-start mb-3 mb-md-0">
+              <a href="index"> <img class="h-30px" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" /> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Footer END -->
+
+    <!-- Back to top -->
+    <div class="back-top"></div>
+
+    <!-- Bootstrap JS -->
+    <script src=" {% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %} "></script>
+
+    <!-- Vendors -->
+    <script src=" {% static 'assets/vendor/apexcharts/js/apexcharts.min.js' %} "></script>
+    <script src=" {% static 'assets/vendor/choices/js/choices.min.js' %} "></script>
+
+    <!-- ThemeFunctions -->
+    <script src=" {% static 'assets/js/functions.js' %} "></script>
+  </body>
+</html>

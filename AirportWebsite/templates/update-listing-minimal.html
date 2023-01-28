@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <title>Airport Website</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Dark mode -->
+    <script type="text/javascript">
+      var theme = localStorage.getItem("data-theme");
+      var root = document.documentElement;
+      if (theme === "dark" && theme !== undefined) {
+        root.classList.add("dark-mode");
+      } else {
+        root.classList.remove("dark-mode");
+      }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href=" {% static 'assets/images/favicon.png' %} " />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link rel="stylesheet" href=" {% static 'css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap' %} " />
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/font-awesome/css/all.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/choices/css/choices.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/dropzone/css/dropzone.css' %} " />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/css/style.css' %} " />
+  </head>
+
+  <body>
+    <!-- Pre loader -->
+    <div class="preloader">
+      <div class="preloader-item">
+        <div class="spinner-grow text-primary"></div>
+      </div>
+    </div>
+    <!-- Header START -->
+    <header class="navbar-light header-sticky">
+      <!-- Logo Nav START -->
+      <nav class="navbar navbar-expand-xl">
+        <div class="container">
+          <!-- Logo START -->
+          <a class="navbar-brand" href="{% url 'index' %}">
+            <img class="light-mode-item navbar-brand-item" src=" {% static 'assets/images/logo.svg' %} " alt="logo" />
+            <img class="dark-mode-item navbar-brand-item" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" />
+          </a>
+          <!-- Logo END -->
+        </div>
+      </nav>
+      <!-- Logo Nav END -->
+    </header>
+    <!-- Header END -->
+
+    <!-- **************** MAIN CONTENT START **************** -->
+    <main>
+      <!-- =======================
+Page Banner START -->
+      <section class="pt-4 pt-md-5 pb-0">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 mx-auto text-center">
+              <h1 class="fs-2 mb-2">Update Employee</h1>
+              <p class="mb-0">Update existing employees by filling this form!</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- =======================
+Page Banner END -->
+
+      <!-- =======================
+Main content START -->
+      <section>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-10 mx-auto">
+              <form class="vstack gap-4" method="POST" action"admin-agent-list">
+                {% csrf_token %}
+                <!-- Owner Detail START -->
+                <div class="card shadow">
+                  <!-- Card header -->
+                  <div class="card-header border-bottom">
+                    <h5 class="mb-0">Employee Detail</h5>
+                  </div>
+
+                  <!-- Card body -->
+                  <div class="card-body">
+                    <div class="row g-3">
+                      <!-- Owner name -->
+                      <div class="col-12">
+                        <label class="form-label">Name</label>
+                        <div class="input-group">
+                          <input name="fname" type="text" class="form-control" value="{{ details.FName }}" placeholder="First name" />
+                          <input name="lname" type="text" class="form-control" value="{{ details.LName }}" placeholder="Last name" />
+                        </div>
+                      </div>
+                      
+
+                      <!-- Contact number -->
+                      <div class="col-md-6">
+                        <label class="form-label">Contact number</label>
+                        <input name="phone" class="form-control" type="text" value="{{ details.Phone }}" placeholder="Enter contact number" />
+                      </div>
+
+                      <!-- Date of birth -->
+                      <div class="col-md-6">
+                        <label class="form-label">Date of Birth</label>
+                        <input name="dob" type="text" class="form-control" value="{{ details.DOB|date:"d-m-Y" }}" placeholder="dd-mm-yyyy" />
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="form-label">Age</label>
+                        <input class="form-control" type="text" value="{{ details.Age }}" placeholder="Age" />
+                      </div>
+
+                      <!-- Address -->
+                      <div class="col-12">
+                        <label class="form-label">Address</label>
+                        <input name="address" class="form-control" rows="2" value="{{ details.Address }}" placeholder="Enter keywords" />
+                      </div>
+
+                      <!-- State -->
+                      <div class="col-md-6">
+                        <label class="form-label">State</label>
+                        <input class="form-control" type="text" placeholder="State" />
+                      </div>
+
+                      <!-- City -->
+                      <div class="col-md-6">
+                        <label class="form-label">City</label>
+                        <input class="form-control" type="text" placeholder="Enter city" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Owner Detail END -->
+
+                <!-- Cab Detail START -->
+                <div class="card shadow">
+                  <!-- Card header -->
+                  <div class="card-header border-bottom">
+                    <h5 class="mb-0">Job Detail</h5>
+                  </div>
+
+                  <!-- Card body -->
+                  <div class="card-body">
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <label class="form-label">Salary</label>
+                        <input name="salary" class="form-control" type="text" value="{{ details.Salary }}" placeholder="Enter Salary" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Button -->
+                <div class="text-end">
+                  <button type="submit" class="btn btn-primary mb-0">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- =======================
+Main content END -->
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
+
+    <!-- Footer START -->
+    <footer class="bg-dark p-3">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Widget -->
+          <div class="col-md-4">
+            <div class="text-center text-md-start mb-3 mb-md-0">
+              <a href="index"> <img class="h-30px" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" /> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Footer END -->
+
+    <!-- Back to top -->
+    <div class="back-top"></div>
+
+    <!-- Bootstrap JS -->
+    <script src=" {% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %} "></script>
+
+    <!-- Vendors -->
+    <script src=" {% static 'assets/vendor/choices/js/choices.min.js' %} "></script>
+    <script src=" {% static 'assets/vendor/dropzone/js/dropzone.js' %} "></script>
+
+    <!-- ThemeFunctions -->
+    <script src=" {% static 'assets/js/functions.js' %} "></script>
+  </body>
+</html>

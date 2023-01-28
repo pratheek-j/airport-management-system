@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <title>Airport Website</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Dark mode -->
+    <script type="text/javascript">
+      var theme = localStorage.getItem("data-theme");
+      var root = document.documentElement;
+      if (theme === "dark" && theme !== undefined) {
+        root.classList.add("dark-mode");
+      } else {
+        root.classList.remove("dark-mode");
+      }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href=" {% static 'assets/images/favicon.png' %} " />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link rel="stylesheet" href=" {% static 'css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap' %} " />
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/font-awesome/css/all.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %} " />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/css/style.css' %} " />
+  </head>
+
+  <body class="dashboard">
+    <!-- Pre loader -->
+    <div class="preloader">
+      <div class="preloader-item">
+        <div class="spinner-grow text-primary"></div>
+      </div>
+    </div>
+
+    <!-- Header START -->
+    <header class="navbar-light header-sticky">
+      <!-- Logo Nav START -->
+      <nav class="navbar navbar-expand-xl">
+        <div class="container">
+          <!-- Logo START -->
+          <a class="navbar-brand" href="{% url 'index' %}">
+            <img class="light-mode-item navbar-brand-item" src=" {% static 'assets/images/logo.svg' %} " alt="logo" />
+            <img class="dark-mode-item navbar-brand-item" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" />
+          </a>
+          <!-- Logo END -->
+
+          <!-- Profile and Notification START -->
+          <ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+            <!-- Profile dropdown START -->
+            <li class="nav-item dropdown">
+              <!-- Avatar -->
+              <a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+                <img class="avatar-img rounded-2" src=" {% static 'assets/images/avatar/01.jpg' %} " alt="avatar" />
+              </a>
+
+              <ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+                <!-- Profile info -->
+                <li class="px-3 mb-3">
+                  <div class="d-flex align-items-center">
+                    <!-- Avatar -->
+                    <div class="avatar me-3">
+                      <img class="avatar-img rounded-circle shadow" src=" {% static 'assets/images/avatar/01.jpg' %} " alt="avatar" />
+                    </div>
+                    <div>
+                      <a class="h6 mt-2 mt-sm-0" href="/account-profile">{{ user.first_name }} {{ user.last_name }}</a>
+                      <p class="small m-0">{{ user.username }}</p>
+                    </div>
+                  </div>
+                </li>
+
+                <!-- Links -->
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="/account-bookings"><i class="bi bi-bookmark-check fa-fw me-2"></i>My Bookings</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/account-profile"><i class="bi bi-gear fa-fw me-2"></i>Settings</a>
+                </li>
+                <li>
+                  <a class="dropdown-item bg-danger-soft-hover" href="{% url 'logout' %}"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+
+                <!-- Dark mode switch START -->
+                <li>
+                  <div class="modeswitch-wrap" id="darkModeSwitch">
+                    <div class="modeswitch-item">
+                      <div class="modeswitch-icon"></div>
+                    </div>
+                    <span>Dark mode</span>
+                  </div>
+                </li>
+                <!-- Dark mode switch END -->
+              </ul>
+            </li>
+            <!-- Profile dropdown END -->
+          </ul>
+          <!-- Profile and Notification START -->
+        </div>
+      </nav>
+      <!-- Logo Nav END -->
+    </header>
+    <!-- Header END -->
+
+    <!-- **************** MAIN CONTENT START **************** -->
+    <main>
+      <!-- Content START -->
+      <section class="pt-3">
+        <div class="container">
+          <div class="row g-2 g-lg-4">
+            <!-- Sidebar START -->
+            <div class="col-lg-4 col-xl-3">
+              <!-- Responsive offcanvas body START -->
+              <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="offcanvasSidebar">
+                <!-- Offcanvas header -->
+                <div class="offcanvas-header justify-content-end pb-2">
+                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
+                </div>
+
+                <!-- Offcanvas body -->
+                <div class="offcanvas-body p-3 p-lg-0">
+                  <div class="card bg-light w-100">
+                    <!-- Edit profile button -->
+                    <div class="position-absolute top-0 end-0 p-3">
+                      <a href="/account-profile" class="text-primary-hover" data-bs-toggle="tooltip" data-bs-title="Edit profile">
+                        <i class="bi bi-pencil-square"></i>
+                      </a>
+                    </div>
+
+                    <!-- Card body START -->
+                    <div class="card-body p-3">
+                      <!-- Avatar and content -->
+                      <div class="text-center mb-3">
+                        <!-- Avatar -->
+                        <div class="avatar avatar-xl mb-2">
+                          <img class="avatar-img rounded-circle border border-2 border-white" src=" {% static 'assets/images/avatar/01.jpg' %} " alt="" />
+                        </div>
+                        <h6 class="mb-0">{{ user.first_name }} {{ user.last_name }}</h6>
+                        <a href="#" class="text-reset text-primary-hover small">{{ user.email }}</a>
+                        <hr />
+                      </div>
+
+                      <!-- Sidebar menu item START -->
+                      <ul class="nav nav-pills-primary-soft flex-column">
+                        <li class="nav-item">
+                          <a class="nav-link" href="/account-profile"><i class="bi bi-person fa-fw me-2"></i>My Profile</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link active" href="/account-bookings"><i class="bi bi-ticket-perforated fa-fw me-2"></i>My Bookings</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="account-delete"><i class="bi bi-trash fa-fw me-2"></i>Delete Profile</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link text-danger bg-danger-soft-hover" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Sign Out</a>
+                        </li>
+                      </ul>
+                      <!-- Sidebar menu item END -->
+                    </div>
+                    <!-- Card body END -->
+                  </div>
+                </div>
+              </div>
+              <!-- Responsive offcanvas body END -->
+            </div>
+            <!-- Sidebar END -->
+
+            <!-- Main content START -->
+            <div class="col-lg-8 col-xl-9 ps-xl-5">
+              <!-- Offcanvas menu button -->
+              <div class="d-grid mb-0 d-lg-none w-100">
+                <button class="btn btn-primary mb-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                  <i class="fas fa-sliders-h"></i> Menu
+                </button>
+              </div>
+
+              <div class="card border bg-transparent">
+                <!-- Card header -->
+                <div class="card-header bg-transparent border-bottom">
+                  <h4 class="card-header-title">My Bookings</h4>
+                </div>
+
+                {% for flight in details %}
+
+                <!-- Card body START -->
+                <div class="card-body p-0">
+                  <!-- Tabs content START -->
+                  <div class="tab-content p-2 p-sm-4" id="nav-tabContent">
+                    <!-- Tab content item START -->
+                    <div class="tab-pane fade show active" id="tab-1">
+                      <!-- Card item START -->
+                      <div class="card border mb-4">
+                        <!-- Card header -->
+                        <div class="card-header border-bottom d-md-flex justify-content-md-between align-items-center">
+                          <!-- Icon and Title -->
+                          <div class="d-flex align-items-center">
+                            <div class="icon-lg bg-light rounded-circle flex-shrink-0"><i class="fa-solid fa-plane"></i></div>
+                            <!-- Title -->
+                            <div class="ms-2">
+                              <h6 class="card-title mb-0">BLR to {{ flight.ARR_AP }}</h6>
+                              <ul class="nav nav-divider small">
+                                <li class="nav-item">Booking ID: {{ flight.BookingID }}</li>
+                              </ul>
+                            </div>
+                          </div>
+                          <button class="btn btn-link text-decoration-underline" data-bs-toggle="modal" data-bs-target="#flight{{ flight.PassengerID }}detail">
+                            <i class="bi bi-eye-fill me-1"></i>E-Ticket
+                          </button>
+
+                          <!-- Button -->
+                          <div class="mt-2 mt-md-0">
+                            <form method="POST" action="/account-bookings">
+                              {% csrf_token %}
+                              <input type="hidden" value="{{ flight.BookingID }}" name="bookingID" />
+                              <button type="submit" class="btn btn-danger-soft mb-0">Delete Booking</button>
+                            </form>
+                          </div>
+                        </div>
+
+                        <!-- Card body -->
+                        <div class="card-body">
+                          <div class="row g-3">
+                            <div class="col-sm-6 col-md-4">
+                              <span>Departure time</span>
+                              <h6 class="mb-0">{{ flight.DEP_DT|date:"D, d M Y" }} {{ flight.DEP_DT|time:"H:i" }}</h6>
+                            </div>
+
+                            <div class="col-sm-6 col-md-4">
+                              <span>Arrival time</span>
+                              <h6 class="mb-0">{{ flight.ARR_DT|date:"D, d M Y" }} {{ flight.ARR_DT|time:"H:i" }}</h6>
+                            </div>
+
+                            <div class="col-md-4">
+                              <span>Passenger (Passport No)</span>
+                              <h6 class="mb-0">{{ flight.Fname }} {{ flight.Lname }} ({{ flight.PassengerID }})</h6>
+                              <h6 class="mb-0"></h6>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Card item END -->
+                    </div>
+                    <!-- Tabs content item END -->
+                  </div>
+                </div>
+                <!-- Card body END -->
+                {% endfor %}
+              </div>
+            </div>
+            <!-- Main content END -->
+          </div>
+        </div>
+      </section>
+      <!-- =======================
+Content END -->
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
+
+    <!-- Footer START -->
+    <footer class="bg-dark p-3">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Widget -->
+          <div class="col-md-4">
+            <div class="text-center text-md-start mb-3 mb-md-0">
+              <a href="index"> <img class="h-30px" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" /> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Footer END -->
+    <!-- Flight detail modal START -->
+    {% for flight in details %}
+    <div class="modal fade" id="flight{{ flight.PassengerID }}detail" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <!-- Title -->
+          <div class="modal-header">
+            <h5 class="modal-title">E-ticket</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <!-- Body -->
+          <div class="modal-body p-3">
+            <!-- Tab content START -->
+            <div class="tab-content mb-0" id="flight-pills-tabContent">
+              <!-- Content item START -->
+              <div class="tab-pane fade show active" id="flight-info-tab" role="tabpanel" aria-labelledby="flight-info">
+                <div class="card border">
+                  <!-- Card header -->
+                  <center>
+                    <div class="card-header">
+                      <div class="align-items-center">
+                        <img class="col-xl-5" src=" {% static 'assets/images/QR/qr.png' %} " />
+                      </div>
+                    </div>
+                    <!-- Card body START -->
+                    <div class="card-body p-4">
+                      <h6 class="fw-normal mb-0">Booking ID: {{ flight.BookingID }}</h6>
+                    </div>
+                    <div class="card-body p-4">
+                      <h6 class="fw-normal mb-0">Bagagge ID: {{ flight.BaggageID }}</h6>
+                    </div>
+                  </center>
+                  <!-- Card body END -->
+                </div>
+              </div>
+              <!-- Content item END -->
+            </div>
+            <!-- Tab content END -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Flight detail modal END -->
+    {% endfor %}
+
+    <!-- Back to top -->
+    <div class="back-top"></div>
+
+    <!-- Bootstrap JS -->
+    <script src=" {% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %} "></script>
+
+    <!-- ThemeFunctions -->
+    <script src=" {% static 'assets/js/functions.js' %} "></script>
+  </body>
+</html>

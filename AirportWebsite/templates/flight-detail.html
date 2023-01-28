@@ -1,0 +1,992 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <title>Airport Website</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Dark mode -->
+    <script type="text/javascript">
+      var theme = localStorage.getItem("data-theme");
+      var root = document.documentElement;
+      if (theme === "dark" && theme !== undefined) {
+        root.classList.add("dark-mode");
+      } else {
+        root.classList.remove("dark-mode");
+      }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href=" {% static 'assets/images/favicon.png' %} " />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link rel="stylesheet" href=" {% static 'css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap' %} " />
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/font-awesome/css/all.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/flatpickr/css/flatpickr.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/choices/css/choices.min.css' %} " />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/css/style.css' %} " />
+  </head>
+
+  <body>
+    <!-- Pre loader -->
+    <div class="preloader">
+      <div class="preloader-item">
+        <div class="spinner-grow text-primary"></div>
+      </div>
+    </div>
+    <!-- Header START -->
+    <header class="navbar-light header-sticky">
+      <!-- Logo Nav START -->
+      <nav class="navbar navbar-expand-xl">
+        <div class="container">
+          <!-- Logo START -->
+          <a class="navbar-brand" href="{% url 'index' %}">
+            <img class="light-mode-item navbar-brand-item" src=" {% static 'assets/images/logo.svg' %} " alt="logo" />
+            <img class="dark-mode-item navbar-brand-item" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" />
+          </a>
+          <!-- Logo END -->
+
+          <!-- Profile and Notification START -->
+          <ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+            <!-- Profile dropdown START -->
+            <li class="nav-item dropdown">
+              <!-- Avatar -->
+              <a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+                <img class="avatar-img rounded-2" src=" {% static 'assets/images/avatar/01.jpg' %} " alt="avatar" />
+              </a>
+
+              <ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+                <!-- Profile info -->
+                <li class="px-3 mb-3">
+                  <div class="d-flex align-items-center">
+                    <!-- Avatar -->
+                    <div class="avatar me-3">
+                      <img class="avatar-img rounded-circle shadow" src=" {% static 'assets/images/avatar/01.jpg' %} " alt="avatar" />
+                    </div>
+                    <div>
+                      <a class="h6 mt-2 mt-sm-0" href="/account-profile">{{ user.first_name }} {{ user.last_name }}</a>
+                      <p class="small m-0">{{ user.username }}</p>
+                    </div>
+                  </div>
+                </li>
+
+                <!-- Links -->
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="/account-bookings"><i class="bi bi-bookmark-check fa-fw me-2"></i>My Bookings</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/account-profile"><i class="bi bi-gear fa-fw me-2"></i>Settings</a>
+                </li>
+                <li>
+                  <a class="dropdown-item bg-danger-soft-hover" href="{% url 'logout' %}"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+
+                <!-- Dark mode switch START -->
+                <li>
+                  <div class="modeswitch-wrap" id="darkModeSwitch">
+                    <div class="modeswitch-item">
+                      <div class="modeswitch-icon"></div>
+                    </div>
+                    <span>Dark mode</span>
+                  </div>
+                </li>
+                <!-- Dark mode switch END -->
+              </ul>
+            </li>
+            <!-- Profile dropdown END -->
+          </ul>
+          <!-- Profile and Notification START -->
+        </div>
+      </nav>
+      <!-- Logo Nav END -->
+    </header>
+    <!-- Header END -->
+
+    <!-- **************** MAIN CONTENT START **************** -->
+    <main>
+      <!-- =======================
+Main Content START -->
+      <section>
+        <div class="container position-relative" data-sticky-container="">
+          <div class="row g-4">
+            {% for flight in flights %} {% if flight.FL_TYPE == 'International - Connecting' %}
+
+            <!-- Left Content START -->
+            <div class="col-xl-9">
+              <div class="vstack gap-4">
+                <!-- Title START -->
+                <div class="d-flex align-items-center">
+                  <!-- Icon -->
+                  <h1 class="display-4 mb-0"><i class="fa-solid fa-plane rtl-flip"></i></h1>
+
+                  <!-- Title and content START -->
+                  <div class="ms-3">
+                    <!-- Title -->
+                    <ul class="list-inline mb-2">
+                      <li class="list-inline-item me-2">
+                        <h3 class="mb-0">Bengaluru(BLR)</h3>
+                      </li>
+                      <li class="list-inline-item me-2">
+                        <h3 class="mb-0"><i class="bi bi-arrow-right"></i></h3>
+                      </li>
+                      <li class="list-inline-item me-0">
+                        {% for airport in airports %} {% if flight.ARR_AP == airport.Unique_code %}
+                        <h3 class="mb-0">{{ airport.City }}({{ flight.ARR_AP }})</h3>
+                        {% endif %}{% endfor %}
+                      </li>
+                    </ul>
+
+                    <!-- List -->
+                    <ul class="nav nav-divider h6 fw-normal text-body mb-0">
+                      <li class="nav-item">{{ flight.DEP_DT|date:"D m" }}</li>
+                      <li class="nav-item">{{ flight.FL_TYPE }}</li>
+                      <li class="nav-item">{{ flight.Duration }} minutes</li>
+                    </ul>
+                  </div>
+
+                  <!-- Title and content END -->
+                </div>
+                <!-- Title END -->
+
+                <!-- Ticket START -->
+                <div class="card border">
+                  <!-- Card header -->
+                  <div class="card-header d-flex justify-content-between pb-0">
+                    <a href="#" class="btn btn-link text-decoration-underline p-0 mb-0" data-bs-toggle="modal" data-bs-target="#baggageFare"> <i class="bi bi-eye-fill me-1"></i>Baggage Rules </a>
+                  </div>
+
+                  <!-- Card body START -->
+                  <div class="card-body p-4">
+                    <!-- Ticket item START -->
+                    <div class="row g-4">
+                      <!-- Air line name -->
+                      <div class="col-md-3">
+                        <!-- Image -->
+                        {% if flight.AL_Code == 'FLY' %}
+                        <img src=" {% static 'assets/images/element/15.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">FlyZo International</h6>
+                        {% elif flight.AL_Code == 'TP' %}
+                        <img src=" {% static 'assets/images/element/09.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">Tulip Airlines</h6>
+                        {% elif flight.AL_Code == 'BL' %}
+                        <img src=" {% static 'assets/images/element/12.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">Blogzine Air</h6>
+                        {% elif flight.AL_Code == 'FO' %}
+                        <img src=" {% static 'assets/images/element/14.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">Folio Air</h6>
+                        {% elif flight.AL_Code == 'WIZ' %}
+                        <img src=" {% static 'assets/images/element/13.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">Wizixo Air</h6>
+                        {% endif %}
+                        <!-- Title -->
+                        <h6 class="fw-normal mb-0">{{ flight.AL_Code }} - {{ flight.AircraftID }}</h6>
+                      </div>
+
+                      <!-- Airport detail -->
+                      <div class="col-sm-4 col-md-3">
+                        <!-- Title -->
+                        <h4>BLR</h4>
+                        <h6>{{ flight.DEP_DT|time:"H:i" }}</h6>
+                        <!-- Address -->
+                        <p class="mb-2">{{ flight.DEP_DT|date:"D, d M Y" }}</p>
+                        <p class="mb-2">Kempegowda International Airport</p>
+                        <p class="mb-0">Terminal - 1 Gate - {{ flight.Gate }}</p>
+                      </div>
+
+                      <!-- Time -->
+                      <div class="col-sm-4 col-md-3 text-center my-sm-auto">
+                        <!-- Time -->
+
+                        <div class="position-relative my-4">
+                          <!-- Line -->
+                          <hr class="bg-primary opacity-5 position-relative" />
+                          <!-- Icon -->
+                          <div class="icon-md bg-primary text-white rounded-circle position-absolute top-50 start-50 translate-middle">
+                            <i class="fa-solid fa-fw fa-plane rtl-flip"></i>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Airport detail -->
+                      <div class="col-sm-4 col-md-3">
+                        <!-- Title -->
+                        <h4>{{ flight.INT_AP }}</h4>
+                        <h6>{{ flight.INT_ARR_DT|time:"H:i" }}</h6>
+                        <!-- Address -->
+                        <p class="mb-2">{{ flight.INT_ARR_DT|date:"D, d M Y" }}</p>
+                        {% for airport in airports %} {% if flight.INT_AP == airport.Unique_code %}
+                        <p class="mb-2">{{ airport.Name }}, {{ airport.City }}, {{ airport.Country }}</p>
+                        {% endif %}{% endfor %}
+                        <p class="mb-0">Terminal - 1</p>
+                      </div>
+                    </div>
+                    <!-- Ticket item END -->
+
+                    <!-- Divider -->
+                    <div class="bg-light rounded-2 text-center text-danger p-2 my-4">Change of planes: {{ flight.Layover }}mins Layover</div>
+
+                    <!-- Ticket item START -->
+                    <div class="row g-4">
+                      <!-- Air line name -->
+                      <div class="col-md-3">
+                        <!-- Image -->
+                        {% if flight.AL_Code == 'FLY' %}
+                        <img src=" {% static 'assets/images/element/15.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">FlyZo International</h6>
+                        {% elif flight.AL_Code == 'TP' %}
+                        <img src=" {% static 'assets/images/element/09.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">Tulip Airlines</h6>
+                        {% elif flight.AL_Code == 'BL' %}
+                        <img src=" {% static 'assets/images/element/12.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">Blogzine Air</h6>
+                        {% elif flight.AL_Code == 'FO' %}
+                        <img src=" {% static 'assets/images/element/14.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">Folio Air</h6>
+                        {% elif flight.AL_Code == 'WIZ' %}
+                        <img src=" {% static 'assets/images/element/13.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">Wizixo Air</h6>
+                        {% endif %}
+                        <!-- Title -->
+                        <h6 class="fw-normal mb-0">{{ flight.AL_Code }} - {{ flight.INTAircraftID }}</h6>
+                      </div>
+
+                      <!-- Airport detail -->
+                      <div class="col-sm-4 col-md-3">
+                        <!-- Title -->
+                        <h4>{{ flight.INT_AP }}</h4>
+                        <h6>{{ flight.INT_DEP_DT|time:"H:i" }}</h6>
+                        <!-- Address -->
+                        <p class="mb-2">{{ flight.INT_DEP_DT|date:"D, d M Y" }}</p>
+                        {% for airport in airports %} {% if flight.INT_AP == airport.Unique_code %}
+                        <p class="mb-2">{{ airport.Name }}, {{ airport.City }}, {{ airport.Country }}</p>
+                        {% endif %}{% endfor %}
+                        <p class="mb-0">Terminal - 1</p>
+                      </div>
+
+                      <!-- Time -->
+                      <div class="col-sm-4 col-md-3 text-center my-sm-auto">
+                        <!-- Time -->
+
+                        <div class="position-relative my-4">
+                          <!-- Line -->
+                          <hr class="bg-primary opacity-5 position-relative" />
+                          <!-- Icon -->
+                          <div class="icon-md bg-primary text-white rounded-circle position-absolute top-50 start-50 translate-middle">
+                            <i class="fa-solid fa-fw fa-plane rtl-flip"></i>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Airport detail -->
+                      <div class="col-sm-4 col-md-3">
+                        <!-- Title -->
+                        <h4>{{ flight.ARR_AP }}</h4>
+                        <h6>{{ flight.ARR_DT|time:"H:i" }}</h6>
+                        <!-- Address -->
+                        <p class="mb-2">{{ flight.ARR_DT|date:"D, d M Y" }}</p>
+                        {% for airport in airports %} {% if flight.ARR_AP == airport.Unique_code %}
+                        <p class="mb-2">{{ airport.Name }}, {{ airport.City }}, {{ airport.Country }}</p>
+                        {% endif %}{% endfor %}
+                        <p class="mb-0">Terminal - 1</p>
+                      </div>
+                    </div>
+                    <!-- Ticket item END -->
+                  </div>
+
+                  <!-- Card body END -->
+                </div>
+                <!-- Ticket END -->
+
+                <!-- Information START -->
+                <div class="card border">
+                  <!-- Card header -->
+                  <div class="card-header border-bottom px-4">
+                    <h3 class="card-title mb-0">Important Information</h3>
+                  </div>
+                  <!-- Card body -->
+                  <div class="card-body py-4">
+                    <!-- List -->
+                    <h5 class="mb-3"><i class="bi bi-arrow-right rtl-flip me-2"></i>Passengers traveling, please note</h5>
+                    <ul>
+                      <li class="mb-2">
+                        Who can travel?
+                        <strong>All fully vaccinated travelers are allowed to enter the country. All WHO-approved vaccines, including Covishield and Covaxin, are accepted by the USA.</strong>
+                      </li>
+                      <li class="mb-2">Destination restrictions: <strong>Non-vaccinated travelers from India cannot enter. Any traveler transiting via EU/UK cannot enter the USA.</strong></li>
+                      <li class="mb-2">
+                        Most airlines require that passengers report at check-in counters two hours before departure for domestic flights and three hours before departure for international flights.
+                        Please check with your airline for updates.
+                      </li>
+                      <li class="mb-2">
+                        Sharp items such as metallic, replica weapons and articles with the potential to cause interference with Civil Aviation operations are not permitted. Such items may be
+                        confiscated by the authorities.
+                      </li>
+                      <li class="mb-2">Ensure that your passport and boarding pass is stamped by the Immigration authorities. Sikh passengers are not permitted to carry Kirpans.</li>
+                    </ul>
+
+                    <!-- Content -->
+                    <h5 class="mb-3"><i class="bi bi-arrow-right rtl-flip me-2"></i>A Note on Guidelines</h5>
+                    <p class="ps-3 mb-0">
+                      As a passenger, you play a vital role in countering any potential threat at the Airport that might come to your notice. You are requested to report any unclaimed or unidentified
+                      baggage or suspicious person or activity to the CISF Control Room and Terminal Manager.
+                    </p>
+                  </div>
+                </div>
+                <!-- Information END -->
+
+                <!-- Booking form START -->
+                <form class="card border" method="POST" action="booking">
+                  {% csrf_token %}
+                  <!-- Card header -->
+                  <div class="card-header border-bottom px-4">
+                    <h3 class="card-title mb-0">Traveler Details</h3>
+                  </div>
+
+                  <!-- Card body START -->
+                  <div class="card-body py-4">
+                    <!-- Badge with content -->
+                    <div class="bg-danger bg-opacity-10 rounded-2 p-3 mb-3">
+                      <p class="h6 fw-light small mb-0"><span class="badge bg-danger me-2">Caution</span>Please make sure you enter the Name as per your passport</p>
+                    </div>
+
+                    <!-- Button -->
+                    {% for passenger in passengers %}
+                    <!-- Accordion START -->
+                    <div class="accordion accordion-icon accordion-bg-light" id="accordionExample2">
+                      <!-- Item -->
+                      <div class="accordion-item mb-3">
+                        <h6 class="accordion-header font-base" id="heading-{{ passenger }}">
+                          <button
+                            class="accordion-button fw-bold rounded collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapse-{{ passenger }}"
+                            aria-expanded="true"
+                            aria-controls="collapse-1"
+                          >
+                            Passenger {{ passenger }}
+                          </button>
+                        </h6>
+                        <!-- Accordion Body START -->
+                        <div id="collapse-{{ passenger }}" class="accordion-collapse collapse" aria-labelledby="heading-1" data-bs-parent="#accordionExample2">
+                          <div class="accordion-body mt-3">
+                            <!-- Form START -->
+
+                            <div class="row g-4">
+                              <!-- Select item -->
+                              <div class="col-md-3">
+                                <label class="form-label">Gender</label>
+                                <select name="gender{{ passenger }}" class="form-select js-choice" required>
+                                  <option>M</option>
+                                  <option>F</option>
+                                </select>
+                              </div>
+
+                              <!-- Input item -->
+                              <div class="col-md-9">
+                                <label class="form-label">Full name</label>
+                                <div class="input-group">
+                                  <input name="fname{{ passenger }}" type="text" class="form-control" required placeholder="First name" />
+                                  <input name="lname{{ passenger }}" type="text" class="form-control" required placeholder="Last name" />
+                                </div>
+                              </div>
+
+                              <!-- Date of birth -->
+                              <div class="col-md-5">
+                                <label class="form-label">Date of Birth</label>
+                                <input name="dob{{ passenger }}" type="text" class="form-control" required placeholder="DD-MM-YYYY" />
+                              </div>
+
+                              <!-- Input item -->
+                              <div class="col-md-6">
+                                <label class="form-label">Phone Number</label>
+                                <input name="phone{{ passenger }}" type="text" class="form-control" required placeholder="Enter phone number" />
+                              </div>
+                              <div>
+                                <label class="form-label">Passport Number</label>
+                                <input name="PN{{ passenger }}" type="text" class="form-control" required placeholder="Enter passport number" />
+                              </div>
+                            </div>
+                            <!-- Form END -->
+                          </div>
+                        </div>
+                        <!-- Accordion Body END -->
+                      </div>
+                    </div>
+                    {% endfor %}
+                    <!-- Accordion END -->
+
+                    <!-- Button -->
+                    <div class="d-grid mt-4">
+                      <button type="submit" class="btn btn-primary mb-0">Proceed To Seat selection</button>
+                    </div>
+                  </div>
+                  <!-- Card body END -->
+                </form>
+                <!-- Booking form END -->
+              </div>
+            </div>
+            <!-- Left Content END -->
+
+            {% else %}
+
+            <!-- Left Content START -->
+            <div class="col-xl-9">
+              <div class="vstack gap-4">
+                <!-- Title START -->
+                <div class="d-flex align-items-center">
+                  <!-- Icon -->
+                  <h1 class="display-4 mb-0"><i class="fa-solid fa-plane rtl-flip"></i></h1>
+
+                  <!-- Title and content START -->
+                  <div class="ms-3">
+                    <!-- Title -->
+                    <ul class="list-inline mb-2">
+                      <li class="list-inline-item me-2">
+                        <h3 class="mb-0">Bengaluru(BLR)</h3>
+                      </li>
+                      <li class="list-inline-item me-2">
+                        <h3 class="mb-0"><i class="bi bi-arrow-right"></i></h3>
+                      </li>
+                      <li class="list-inline-item me-0">
+                        {% for airport in airports %} {% if flight.ARR_AP == airport.Unique_code %}
+                        <h3 class="mb-0">{{ airport.City }}({{ flight.ARR_AP }})</h3>
+                        {% endif %}{% endfor %}
+                      </li>
+                    </ul>
+
+                    <!-- List -->
+                    <ul class="nav nav-divider h6 fw-normal text-body mb-0">
+                      <li class="nav-item">{{ flight.DEP_DT|date:"D m" }}</li>
+                      <li class="nav-item">{{ flight.FL_TYPE }}</li>
+                      <li class="nav-item">{{ flight.Duration }} minutes</li>
+                    </ul>
+                  </div>
+
+                  <!-- Title and content END -->
+                </div>
+                <!-- Title END -->
+
+                <!-- Ticket START -->
+                <div class="card border">
+                  <!-- Card header -->
+                  <div class="card-header d-flex justify-content-between pb-0">
+                    <a href="#" class="btn btn-link text-decoration-underline p-0 mb-0" data-bs-toggle="modal" data-bs-target="#baggageFare"> <i class="bi bi-eye-fill me-1"></i>Baggage Rules </a>
+                  </div>
+
+                  <!-- Card body START -->
+                  <div class="card-body p-4">
+                    <!-- Ticket item START -->
+                    <div class="row g-4">
+                      <!-- Air line name -->
+                      <div class="col-md-3">
+                        <!-- Image -->
+                        {% if flight.AL_Code == 'FLY' %}
+                        <img src=" {% static 'assets/images/element/15.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">FlyZo International</h6>
+                        {% elif flight.AL_Code == 'TP' %}
+                        <img src=" {% static 'assets/images/element/09.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">Tulip Airlines</h6>
+                        {% elif flight.AL_Code == 'BL' %}
+                        <img src=" {% static 'assets/images/element/12.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">Blogzine Air</h6>
+                        {% elif flight.AL_Code == 'FO' %}
+                        <img src=" {% static 'assets/images/element/14.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">Folio Air</h6>
+                        {% elif flight.AL_Code == 'WIZ' %}
+                        <img src=" {% static 'assets/images/element/13.svg' %}" class="w-80px mb-3" alt="" />
+                        <h6 class="fw-normal mb-0">Wizixo Air</h6>
+                        {% endif %}
+                        <!-- Title -->
+                        <h6 class="fw-normal mb-0">{{ flight.AL_Code }} - {{ flight.AircraftID }}</h6>
+                      </div>
+
+                      <!-- Airport detail -->
+                      <div class="col-sm-4 col-md-3">
+                        <!-- Title -->
+                        <h4>BLR</h4>
+                        <h6>{{ flight.DEP_DT|time:"H:i" }}</h6>
+                        <!-- Address -->
+                        <p class="mb-2">{{ flight.DEP_DT|date:"D, d M Y" }}</p>
+                        <p class="mb-2">Kempegowda International Airport</p>
+                        <p class="mb-0">Terminal - 1 Gate - {{ flight.Gate }}</p>
+                      </div>
+
+                      <!-- Time -->
+                      <div class="col-sm-4 col-md-3 text-center my-sm-auto">
+                        <!-- Time -->
+
+                        <div class="position-relative my-4">
+                          <!-- Line -->
+                          <hr class="bg-primary opacity-5 position-relative" />
+                          <!-- Icon -->
+                          <div class="icon-md bg-primary text-white rounded-circle position-absolute top-50 start-50 translate-middle">
+                            <i class="fa-solid fa-fw fa-plane rtl-flip"></i>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Airport detail -->
+                      <div class="col-sm-4 col-md-3">
+                        <!-- Title -->
+                        <h4>{{ flight.ARR_AP }}</h4>
+                        <h6>{{ flight.ARR_DT|time:"H:i" }}</h6>
+                        <!-- Address -->
+                        <p class="mb-2">{{ flight.ARR_DT|date:"D, d M Y" }}</p>
+                        {% for airport in airports %} {% if flight.INT_AP == airport.Unique_code %}
+                        <p class="mb-2">{{ airport.Name }}, {{ airport.City }}, {{ airport.Country }}</p>
+                        {% endif %}{% endfor %}
+                        <p class="mb-0">Terminal - 1</p>
+                      </div>
+                    </div>
+                    <!-- Ticket item END -->
+                  </div>
+                  <!-- Card body END -->
+                </div>
+
+                <!-- Ticket END -->
+
+                <!-- Information START -->
+                <div class="card border">
+                  <!-- Card header -->
+                  <div class="card-header border-bottom px-4">
+                    <h3 class="card-title mb-0">Important Information</h3>
+                  </div>
+                  <!-- Card body -->
+                  <div class="card-body py-4">
+                    <!-- List -->
+                    <h5 class="mb-3"><i class="bi bi-arrow-right rtl-flip me-2"></i>Passengers traveling, please note</h5>
+                    <ul>
+                      <li class="mb-2">
+                        Who can travel?
+                        <strong>All fully vaccinated travelers are allowed to enter the country. All WHO-approved vaccines, including Covishield and Covaxin, are accepted by the USA.</strong>
+                      </li>
+                      <li class="mb-2">Destination restrictions: <strong>Non-vaccinated travelers from India cannot enter. Any traveler transiting via EU/UK cannot enter the USA.</strong></li>
+                      <li class="mb-2">
+                        Most airlines require that passengers report at check-in counters two hours before departure for domestic flights and three hours before departure for international flights.
+                        Please check with your airline for updates.
+                      </li>
+                      <li class="mb-2">
+                        Sharp items such as metallic, replica weapons and articles with the potential to cause interference with Civil Aviation operations are not permitted. Such items may be
+                        confiscated by the authorities.
+                      </li>
+                      <li class="mb-2">Ensure that your passport and boarding pass is stamped by the Immigration authorities. Sikh passengers are not permitted to carry Kirpans.</li>
+                    </ul>
+
+                    <!-- Content -->
+                    <h5 class="mb-3"><i class="bi bi-arrow-right rtl-flip me-2"></i>A Note on Guidelines</h5>
+                    <p class="ps-3 mb-0">
+                      As a passenger, you play a vital role in countering any potential threat at the Airport that might come to your notice. You are requested to report any unclaimed or unidentified
+                      baggage or suspicious person or activity to the CISF Control Room and Terminal Manager.
+                    </p>
+                  </div>
+                </div>
+                <!-- Information END -->
+
+                <!-- Booking form START -->
+                <form class="card border" method="POST" action="booking">
+                  {% csrf_token %}
+                  <!-- Card header -->
+                  <div class="card-header border-bottom px-4">
+                    <h3 class="card-title mb-0">Traveler Details</h3>
+                  </div>
+
+                  <!-- Card body START -->
+                  <div class="card-body py-4">
+                    <!-- Badge with content -->
+                    <div class="bg-danger bg-opacity-10 rounded-2 p-3 mb-3">
+                      <p class="h6 fw-light small mb-0"><span class="badge bg-danger me-2">Caution</span>Please make sure you enter the Name as per your passport</p>
+                    </div>
+
+                    <!-- Button -->
+                    {% for passenger in passengers %}
+                    <!-- Accordion START -->
+                    <div class="accordion accordion-icon accordion-bg-light" id="accordionExample2">
+                      <!-- Item -->
+                      <div class="accordion-item mb-3">
+                        <h6 class="accordion-header font-base" id="heading-{{ passenger }}">
+                          <button
+                            class="accordion-button fw-bold rounded collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapse-{{ passenger }}"
+                            aria-expanded="true"
+                            aria-controls="collapse-1"
+                          >
+                            Passenger {{ passenger }}
+                          </button>
+                        </h6>
+                        <!-- Accordion Body START -->
+                        <div id="collapse-{{ passenger }}" class="accordion-collapse collapse" aria-labelledby="heading-1" data-bs-parent="#accordionExample2">
+                          <div class="accordion-body mt-3">
+                            <!-- Form START -->
+
+                            <div class="row g-4">
+                              <!-- Select item -->
+                              <div class="col-md-3">
+                                <label class="form-label">Gender</label>
+                                <select name="gender{{ passenger }}" class="form-select js-choice" required>
+                                  <option>M</option>
+                                  <option>F</option>
+                                </select>
+                              </div>
+
+                              <!-- Input item -->
+                              <div class="col-md-9">
+                                <label class="form-label">Full name</label>
+                                <div class="input-group">
+                                  <input name="fname{{ passenger }}" type="text" class="form-control" required placeholder="First name" />
+                                  <input name="lname{{ passenger }}" type="text" class="form-control" required placeholder="Last name" />
+                                </div>
+                              </div>
+
+                              <!-- Date of birth -->
+                              <div class="col-md-5">
+                                <label class="form-label">Date of Birth</label>
+                                <input name="dob{{ passenger }}" type="text" class="form-control" required placeholder="DD-MM-YYYY" />
+                              </div>
+
+                              <!-- Input item -->
+                              <div class="col-md-6">
+                                <label class="form-label">Phone Number</label>
+                                <input name="phone{{ passenger }}" type="text" class="form-control" required placeholder="Enter phone number" />
+                              </div>
+                              <div>
+                                <label class="form-label">Passport Number</label>
+                                <input name="PN{{ passenger }}" type="text" class="form-control" required placeholder="Enter passport number" />
+                              </div>
+                            </div>
+                            <!-- Form END -->
+                          </div>
+                        </div>
+                        <!-- Accordion Body END -->
+                      </div>
+                    </div>
+                    {% endfor %}
+                    <!-- Accordion END -->
+
+                    <!-- Button -->
+                    <div class="d-grid mt-4">
+                      <button type="submit" class="btn btn-primary mb-0">Proceed To Seat selection</button>
+                    </div>
+                  </div>
+                  <!-- Card body END -->
+                </form>
+                <!-- Booking form END -->
+              </div>
+            </div>
+            <!-- Left Content END -->
+
+            {% endif %} {% endfor %}
+
+            <!-- Right content START -->
+            <aside class="col-xl-3">
+              {% for flight in flights %}
+              <div data-sticky="" data-margin-top="80" data-sticky-for="1199">
+                <div class="row g-4">
+                  <!-- Fare summary START -->
+                  <div class="col-md-6 col-xl-12">
+                    <div class="card bg-light rounded-2">
+                      <!-- card header -->
+                      <div class="card-header border-bottom bg-light">
+                        <h5 class="card-title mb-0">Fare Summary</h5>
+                      </div>
+
+                      <!-- Card body -->
+                      <div class="card-body">
+                        <ul class="list-group list-group-borderless">
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="h6 fw-normal mb-0">Base Fare </span>
+                            <span class="fs-5">₹{{ flight.Fare|add:"-1000" }}</span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <!-- Card footer -->
+                      <div class="card-footer border-top bg-light">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <span class="h5 fw-normal mb-0">Total Fare</span>
+                          <span class="h5 fw-normal mb-0">₹{{ flight.Fare }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                  <!-- Fare summary END -->
+                </div>
+              </div>
+            </aside>
+            <!-- Right content END -->
+          </div>
+        </div>
+      </section>
+      <!-- =======================
+Main Content END -->
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
+
+    <!-- Footer START -->
+    <footer class="bg-dark p-3">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Widget -->
+          <div class="col-md-4">
+            <div class="text-center text-md-start mb-3 mb-md-0">
+              <a href="index"> <img class="h-30px" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" /> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Footer END -->
+
+    <!-- Cancellation modal START -->
+    <div class="modal fade" id="cancellation" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <!-- Title -->
+          <div class="modal-header">
+            <h5 class="modal-title" id="cancellationlabel">Cancellation & Date Change Charges</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <!-- Body -->
+          <div class="modal-body p-3">
+            <ul class="nav nav-pills nav-justified nav-responsive bg-primary bg-opacity-10 rounded p-2 mb-3" id="tour-pills-tab" role="tablist">
+              <!-- Tab item -->
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link rounded-start active mb-0"
+                  id="tour-pills-tab-1"
+                  data-bs-toggle="pill"
+                  data-bs-target="#tour-pills-tab1"
+                  type="button"
+                  role="tab"
+                  aria-controls="tour-pills-tab1"
+                  aria-selected="true"
+                >
+                  Cancellation Charge
+                </button>
+              </li>
+              <!-- Tab item -->
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link rounded-end mb-0"
+                  id="tour-pills-tab-2"
+                  data-bs-toggle="pill"
+                  data-bs-target="#tour-pills-tab2"
+                  type="button"
+                  role="tab"
+                  aria-controls="tour-pills-tab2"
+                  aria-selected="false"
+                >
+                  Date Change Charge
+                </button>
+              </li>
+            </ul>
+
+            <!-- Tab content START -->
+            <div class="tab-content mb-0" id="tour-pills-tabContent">
+              <!-- Content item START -->
+              <div class="tab-pane fade show active" id="tour-pills-tab1" role="tabpanel" aria-labelledby="tour-pills-tab-1">
+                <div class="card border">
+                  <!-- Card header -->
+                  <div class="card-header border-bottom">
+                    <!-- Title -->
+                    <h5 class="card-title mb-0">
+                      {% if flight.AL_Code == 'FLY' %}
+                      <img src=" {% static 'assets/images/element/15.svg' %}" class="h-50px" alt="" />
+
+                      {% elif flight.AL_Code == 'TP' %}
+                      <img src=" {% static 'assets/images/element/09.svg' %}" class="h-50px" alt="" />
+
+                      {% elif flight.AL_Code == 'BL' %}
+                      <img src=" {% static 'assets/images/element/12.svg' %}" class="h-50px" alt="" />
+
+                      {% elif flight.AL_Code == 'FO' %}
+                      <img src=" {% static 'assets/images/element/14.svg' %}" class="h-50px" alt="" />
+
+                      {% elif flight.AL_Code == 'WIZ' %}
+                      <img src=" {% static 'assets/images/element/13.svg' %}" class="h-50px" alt="" />
+
+                      {% endif %} BLR - {{ flight.ARR_AP }}
+                    </h5>
+                  </div>
+
+                  <!-- Card body -->
+                  <div class="card-body">
+                    <!-- Table START -->
+                    <div class="table-responsive-lg">
+                      <table class="table table-bordered rounded caption-bottom overflow-hidden mb-0">
+                        <!-- Caption -->
+                        <caption class="pb-0">
+                          *From The Date Of Departure
+                        </caption>
+                        <!-- Table head -->
+                        <thead class="table-dark border-light">
+                          <tr>
+                            <th scope="col">Time Frame</th>
+                            <th scope="col">Air Free + MMT Free</th>
+                          </tr>
+                        </thead>
+                        <!-- Table body -->
+                        <tbody class="border-top-0">
+                          <tr>
+                            <td>0 hours to 24 hours</td>
+                            <td>Non Refundable</td>
+                          </tr>
+                          <tr>
+                            <td>24 hours to 365 days</td>
+                            <td>₹16,325 + ₹250</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- Table END -->
+                  </div>
+                </div>
+              </div>
+              <!-- Content item END -->
+
+              <!-- Content item START -->
+              <div class="tab-pane fade" id="tour-pills-tab2" role="tabpanel" aria-labelledby="tour-pills-tab-2">
+                <div class="card border">
+                  <!-- Card header -->
+                  <div class="card-header border-bottom">
+                    <!-- Title -->
+                    <h5 class="card-title mb-0">
+                      <img src=" {% static 'assets/images/element/09.svg' %} " class="h-50px" alt="" />
+                      JFK - BOM
+                    </h5>
+                  </div>
+
+                  <!-- Card body -->
+                  <div class="card-body">
+                    <!-- Table START -->
+                    <div class="table-responsive-lg">
+                      <table class="table table-bordered rounded caption-bottom overflow-hidden mb-0">
+                        <!-- Caption -->
+                        <caption class="pb-0">
+                          *From The Date Of Departure
+                        </caption>
+                        <!-- Table head -->
+                        <thead class="table-dark border-light">
+                          <tr>
+                            <th scope="col">Time Frame</th>
+                            <th scope="col">Air Free + MMT Free + Fare Difference</th>
+                          </tr>
+                        </thead>
+                        <!-- Table body -->
+                        <tbody class="border-top-0">
+                          <tr>
+                            <td>0 hours to 24 hours</td>
+                            <td>Non Refundable</td>
+                          </tr>
+                          <tr>
+                            <td>24 hours to 365 days</td>
+                            <td>₹16,325 + ₹250 + Fare Difference</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- Table END -->
+                  </div>
+                </div>
+              </div>
+              <!-- Content item END -->
+            </div>
+            <!-- Tab content END -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Cancellation modal END -->
+
+    <!-- Baggage and fare START -->
+    <div class="modal fade" id="baggageFare" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <!-- Title -->
+          <div class="modal-header">
+            <h5 class="modal-title" id="baggageFarelabel">Baggage Rules</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <!-- Body -->
+          <div class="modal-body p-3">
+            <!-- Card START -->
+            <div class="card border">
+              <!-- Card header -->
+              <div class="card-header border-bottom">
+                <!-- Title -->
+                <h5 class="card-title mb-0">
+                  <img src=" {% static 'assets/images/element/09.svg' %} " class="h-80px" alt="" />
+                  BOM - CDG
+                </h5>
+              </div>
+
+              <!-- Card body -->
+              <div class="card-body">
+                <!-- Table START -->
+                <div class="table-responsive-lg">
+                  <table class="table table-bordered rounded caption-bottom overflow-hidden mb-0">
+                    <!-- Table head -->
+                    <thead class="table-dark border-light">
+                      <tr>
+                        <th scope="col">Baggage Type</th>
+                        <th scope="col">Check In</th>
+                        <th scope="col">Cabin</th>
+                      </tr>
+                    </thead>
+                    <!-- Table body -->
+                    <tbody class="border-top-0">
+                      <tr>
+                        <td>Adult</td>
+                        <td>2 PC</td>
+                        <td>7 Kg</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Table END -->
+              </div>
+
+              <!-- Card footer -->
+              <div class="card-footer d-flex justify-content-between align-items-center pt-0 px-sm-4">
+                <span>*1PC = 23KG</span>
+              </div>
+            </div>
+            <!-- Card END -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Baggage and fare END -->
+
+    <!-- Back to top -->
+    <div class="back-top"></div>
+
+    <!-- Bootstrap JS -->
+    <script src=" {% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %} "></script>
+
+    <!-- Vendors -->
+    <script src=" {% static 'assets/vendor/sticky-js/sticky.min.js' %} "></script>
+    <script src=" {% static 'assets/vendor/flatpickr/js/flatpickr.min.js' %} "></script>
+    <script src=" {% static 'assets/vendor/choices/js/choices.min.js' %} "></script>
+
+    <!-- ThemeFunctions -->
+    <script src=" {% static 'assets/js/functions.js' %} "></script>
+  </body>
+</html>

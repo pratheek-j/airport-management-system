@@ -1,0 +1,13 @@
+# start stop MySql server
+sudo /etc/init.d/mysql stop
+sudo /etc/init.d/mysql start
+
+# connect
+sudo mysql -u webapp -p
+
+# before mysqlclient
+sudo apt install mysql_config
+sudo apt-get install libmysqlclient-dev
+sudo apt install python3-dev
+
+pip install mysqlclient

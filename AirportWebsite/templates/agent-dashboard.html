@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <title>Airport Website</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Dark mode -->
+    <script type="text/javascript">
+      var theme = localStorage.getItem("data-theme");
+      var root = document.documentElement;
+      if (theme === "dark" && theme !== undefined) {
+        root.classList.add("dark-mode");
+      } else {
+        root.classList.remove("dark-mode");
+      }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href=" {% static 'assets/images/favicon.png' %} " />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link rel="stylesheet" href=" {% static 'css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap' %} " />
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/font-awesome/css/all.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/apexcharts/css/apexcharts.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/choices/css/choices.min.css' %} " />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/css/style.css' %} " />
+  </head>
+
+  <body>
+    <!-- Pre loader -->
+    <div class="preloader">
+      <div class="preloader-item">
+        <div class="spinner-grow text-primary"></div>
+      </div>
+    </div>
+    <!-- Header START -->
+    <header class="navbar-light header-sticky">
+      <!-- Logo Nav START -->
+      <nav class="navbar navbar-expand-xl">
+        <div class="container">
+          <!-- Logo START -->
+          <a class="navbar-brand" href="{% url 'airline-index' %}">
+            <img class="light-mode-item navbar-brand-item" src=" {% static 'assets/images/logo.svg' %} " alt="logo" />
+            <img class="dark-mode-item navbar-brand-item" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" />
+          </a>
+          <!-- Logo END -->
+
+          <!-- Profile and Notification START -->
+          <ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+            <!-- Profile dropdown START -->
+            <div class="modeswitch-wrap" id="darkModeSwitch">
+              <div class="modeswitch-item">
+                <div class="modeswitch-icon"></div>
+              </div>
+            </div>
+            <li class="nav-item dropdown">
+              <!-- Avatar -->
+              <a class="dropdown-item bg-danger-soft-hover" href="{% url 'logout' %}"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a>
+
+              <!-- Links -->
+            </li>
+            <!-- Profile dropdown END -->
+          </ul>
+          <!-- Profile and Notification START -->
+        </div>
+      </nav>
+      <!-- Logo Nav END -->
+    </header>
+    <!-- Header END -->
+
+    <!-- **************** MAIN CONTENT START **************** -->
+    <main>
+      <!-- =======================
+Menu item START -->
+      <section class="pt-4">
+        {% csrf_token %}
+        <div class="container">
+          <div class="card rounded-3 border p-3 pb-2">
+            <!-- Avatar and info START -->
+            <div class="d-sm-flex align-items-center">
+              <div class="avatar avatar-xl mb-2 mb-sm-0">
+                {% if user.username == 'BL' %}
+                <img class="avatar-img rounded-circle" src=" {% static 'assets/images/avatar/BL.svg' %} " alt="" />
+                {% elif user.username == 'FLY' %}
+                <img class="avatar-img rounded-circle" src=" {% static 'assets/images/avatar/FLY.svg' %} " alt="" />
+                {% elif user.username == 'FO' %}
+                <img class="avatar-img rounded-circle" src=" {% static 'assets/images/avatar/FO.svg' %} " alt="" />
+                {% elif user.username == 'WIZ' %}
+                <img class="avatar-img rounded-circle" src=" {% static 'assets/images/avatar/WIZ.svg' %} " alt="" />
+                {% else %}
+                <img class="avatar-img rounded-circle" src=" {% static 'assets/images/avatar/TP.svg' %} " alt="" />
+                {% endif %}
+              </div>
+              <h4 class="mb-2 mb-sm-0 ms-sm-3"><span class="fw-light">Welcome,</span> {{ user.first_name }} {{ user.last_name }}</h4>
+            </div>
+            <!-- Avatar and info START -->
+
+            <!-- Responsive navbar toggler -->
+            <button class="btn btn-primary w-100 d-block d-xl-none mt-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#dashboardMenu" aria-controls="dashboardMenu">
+              <i class="bi bi-list"></i> Dashboard Menu
+            </button>
+
+            <!-- Nav links START -->
+            <div class="offcanvas-xl offcanvas-end mt-xl-3" tabindex="-1" id="dashboardMenu">
+              <div class="offcanvas-header border-bottom p-3">
+                <h5 class="offcanvas-title">Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#dashboardMenu" aria-label="Close"></button>
+              </div>
+              <!-- Offcanvas body -->
+              <div class="offcanvas-body p-3 p-xl-0">
+                <!-- Nav item -->
+                <div class="navbar navbar-expand-xl">
+                  <ul class="navbar-nav navbar-offcanvas-menu">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="agent-dashboard"><i class="bi bi-house-door fa-fw me-1"></i>Dashboard</a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link" href="agent-listings"><i class="bi bi-journals fa-fw me-1"></i>Listings</a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link" href="agent-bookings"><i class="bi bi-bookmark-heart fa-fw me-1"></i>Details</a>
+                    </li>
+
+                    <li class="nav-item">
+                      <form method="GET" action="add-listing">
+                        <button class="btn btn-sm btn-primary-soft mb-0 ms-auto flex-shrink-0 nav-link"><i class="bi bi-plus-lg fa-fw me-2"></i>Add new Flight Leg</button>
+                        {% csrf_token %}
+                        <input type="hidden" name="airline" value="{{ user.username }}" />
+                      </form>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- Nav links END -->
+          </div>
+        </div>
+      </section>
+      <!-- =======================
+Menu item END -->
+
+      <!-- =======================
+Content START -->
+      <section class="pt-0">
+        <div class="container vstack gap-4">
+          <!-- Title START -->
+          <div class="row">
+            <div class="col-12">
+              <h1 class="fs-4 mb-0"><i class="bi bi-house-door fa-fw me-1"></i>Dashboard</h1>
+            </div>
+          </div>
+          <!-- Title END -->
+
+          <!-- Counter START -->
+          <div class="row g-4">
+            <!-- Counter item -->
+            <div class="col-sm-6 col-xl-3">
+              <div class="card card-body border">
+                <div class="d-flex align-items-center">
+                  <!-- Icon -->
+                  <div class="icon-xl bg-success rounded-3 text-white">
+                    <i class="bi bi-journals"></i>
+                  </div>
+                  <!-- Content -->
+                  <div class="ms-3">
+                    <h4>{{ dash.countFL }}</h4>
+                    <span>Flight Legs Listed</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Counter item -->
+            <div class="col-sm-6 col-xl-3">
+              <div class="card card-body border">
+                <div class="d-flex align-items-center">
+                  <!-- Icon -->
+                  <div class="icon-xl bg-info rounded-3 text-white">
+                    <i class="bi bi-graph-up-arrow"></i>
+                  </div>
+                  <!-- Content -->
+                  <div class="ms-3">
+                    <h4>₹{{ dash.earning }}</h4>
+                    <span>Earning</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Counter item -->
+            <div class="col-sm-6 col-xl-3">
+              <div class="card card-body border">
+                <div class="d-flex align-items-center">
+                  <!-- Icon -->
+                  <div class="icon-xl bg-warning rounded-3 text-white">
+                    <i class="bi bi-bar-chart-line-fill"></i>
+                  </div>
+                  <!-- Content -->
+                  <div class="ms-3">
+                    <h4>{{ dash.seats_booked }}</h4>
+                    <span>Seats Booked</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Counter END -->
+
+          <!-- Graph START -->
+          <div class="row g-4">
+            <!-- Booking Chart START -->
+            <div class="col-lg-7 col-xl-8">
+              <!-- Chart START -->
+              <div class="card border h-100">
+                <!-- Card header -->
+                <div class="card-header border-bottom">
+                  <h5 class="card-header-title">Booking stats</h5>
+                </div>
+                <!-- Card body -->
+                <div class="card-body">
+                  <!-- Apex chart -->
+                  <div id="apexChartTrafficStats" class="mt-2"></div>
+                </div>
+              </div>
+              <!-- Chart END -->
+            </div>
+            <!-- Booking Chart END -->
+
+            <!-- Booking graph START -->
+            <div class="col-lg-4">
+              <div class="card border h-100">
+                <!-- Card header -->
+                <div class="card-header border-bottom d-flex justify-content-between align-items-center">
+                  <h5 class="card-header-title">Booking Traffic</h5>
+                </div>
+
+                <!-- Card body START -->
+                <div class="card-body p-3">
+                  <!-- Chart -->
+                  <div class="col-sm-6 mx-auto">
+                    <div class="d-flex justify-content-center" id="ChartTrafficViews"></div>
+                  </div>
+
+                  <!-- Content -->
+                  <ul class="list-group list-group-borderless align-items-center mt-3">
+                    <li class="list-group-item"><i class="text-primary fas fa-circle me-2"></i>Economy Class</li>
+                    <li class="list-group-item"><i class="text-success fas fa-circle me-2"></i>Business Class</li>
+                    <li class="list-group-item"><i class="text-warning fas fa-circle me-2"></i>First Class</li>
+                    <li class="list-group-item"><i class="text-danger fas fa-circle me-2"></i>Seats Left</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- Booking graph END -->
+          </div>
+          <!-- Graph END -->
+        </div>
+      </section>
+      <!-- =======================
+Content END -->
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
+
+    <!-- Footer START -->
+    <footer class="bg-dark p-3">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Widget -->
+          <div class="col-md-4">
+            <div class="text-center text-md-start mb-3 mb-md-0">
+              <a href="{% url 'airline-index' %}"> <img class="h-30px" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" /> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Footer END -->
+
+    <!-- Back to top -->
+    <div class="back-top"></div>
+
+    <!-- Bootstrap JS -->
+    <script src=" {% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %} "></script>
+
+    <!-- Vendors -->
+    <script src=" {% static 'assets/vendor/apexcharts/js/apexcharts.min.js' %} "></script>
+    <script src=" {% static 'assets/vendor/choices/js/choices.min.js' %} "></script>
+
+    <!-- Pie chart and Graph -->
+    {{ dash.seats_list|json_script:"data2" }}
+
+    <!-- ThemeFunctions -->
+    <script src=" {% static 'assets/js/functions.js' %} "></script>
+  </body>
+</html>

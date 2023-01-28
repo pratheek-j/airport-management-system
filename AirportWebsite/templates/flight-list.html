@@ -1,0 +1,893 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <title>Airport Website</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Dark mode -->
+    <script type="text/javascript">
+      var theme = localStorage.getItem("data-theme");
+      var root = document.documentElement;
+      if (theme === "dark" && theme !== undefined) {
+        root.classList.add("dark-mode");
+      } else {
+        root.classList.remove("dark-mode");
+      }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href=" {% static 'assets/images/favicon.png' %} " />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link rel="stylesheet" href=" {% static 'css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap' %} " />
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/font-awesome/css/all.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/flatpickr/css/flatpickr.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/choices/css/choices.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/nouislider/nouislider.css' %} " />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/css/style.css' %} " />
+  </head>
+
+  <body>
+    <!-- Pre loader -->
+    <div class="preloader">
+      <div class="preloader-item">
+        <div class="spinner-grow text-primary"></div>
+      </div>
+    </div>
+    <!-- Header START -->
+    <header class="navbar-light header-sticky">
+      <!-- Logo Nav START -->
+      <nav class="navbar navbar-expand-xl">
+        <div class="container">
+          <!-- Logo START -->
+          <a class="navbar-brand" href="{% url 'index' %}">
+            <img class="light-mode-item navbar-brand-item" src=" {% static 'assets/images/logo.svg' %} " alt="logo" />
+            <img class="dark-mode-item navbar-brand-item" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" />
+          </a>
+          <!-- Logo END -->
+
+          <!-- Profile and Notification START -->
+          <ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+            <!-- Profile dropdown START -->
+            <li class="nav-item dropdown">
+              <!-- Avatar -->
+              <a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+                <img class="avatar-img rounded-2" src=" {% static 'assets/images/avatar/01.jpg' %} " alt="avatar" />
+              </a>
+
+              <ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+                <!-- Profile info -->
+                <li class="px-3 mb-3">
+                  <div class="d-flex align-items-center">
+                    <!-- Avatar -->
+                    <div class="avatar me-3">
+                      <img class="avatar-img rounded-circle shadow" src=" {% static 'assets/images/avatar/01.jpg' %} " alt="avatar" />
+                    </div>
+                    <div>
+                      <a class="h6 mt-2 mt-sm-0" href="/account-profile">{{ user.first_name }} {{ user.last_name }}</a>
+                      <p class="small m-0">{{ user.username }}</p>
+                    </div>
+                  </div>
+                </li>
+
+                <!-- Links -->
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="/account-bookings"><i class="bi bi-bookmark-check fa-fw me-2"></i>My Bookings</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/account-profile"><i class="bi bi-gear fa-fw me-2"></i>Settings</a>
+                </li>
+                <li>
+                  <a class="dropdown-item bg-danger-soft-hover" href="{% url 'logout' %}"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+
+                <!-- Dark mode switch START -->
+                <li>
+                  <div class="modeswitch-wrap" id="darkModeSwitch">
+                    <div class="modeswitch-item">
+                      <div class="modeswitch-icon"></div>
+                    </div>
+                    <span>Dark mode</span>
+                  </div>
+                </li>
+                <!-- Dark mode switch END -->
+              </ul>
+            </li>
+            <!-- Profile dropdown END -->
+          </ul>
+          <!-- Profile and Notification START -->
+        </div>
+      </nav>
+      <!-- Logo Nav END -->
+    </header>
+    <!-- Header END -->
+
+    <!-- **************** MAIN CONTENT START **************** -->
+    <main>
+      <!-- Search START -->
+
+      <!-- Title and notice board START -->
+      <section class="pt-0">
+        <div class="container position-relative">
+          <!-- Title and button START -->
+          <div class="row">
+            <div class="col-12">
+              <div class="d-sm-flex justify-content-sm-between align-items-center">
+                <!-- Title -->
+
+                <!-- Offcanvas Button -->
+                <button class="btn btn-primary d-xl-none mb-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                  <i class="fa-solid fa-sliders-h me-1"></i> Show filters
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Title and button END -->
+
+          <!-- Notice board START -->
+          <div class="bg-primary bg-opacity-10 rounded-3 overflow-hidden mt-4 p-4">
+            <div class="row g-4 align-items-center">
+              <!-- Image -->
+              <div class="col-6 col-md-3 text-center order-1">
+                <img src=" {% static 'assets/images/element/11.svg' %} " class="mb-n5" alt="" />
+              </div>
+
+              <!-- Content -->
+              <div class="col-md-6 order-md-2">
+                <!-- Title -->
+                <h4>International Guideline</h4>
+                <!-- Content -->
+                <p class="mb-2">COVID safety measures adopted by various countries including VISA restrictions, quarantine rules, etc.</p>
+              </div>
+              <!-- Image -->
+              <div class="col-6 col-md-3 text-center order-3">
+                <img src=" {% static 'assets/images/element/10.svg' %} " class="mb-n5" alt="" />
+              </div>
+            </div>
+          </div>
+          <!-- Notice board END -->
+        </div>
+      </section>
+      <!-- Title and notice board END -->
+
+      <!-- Flight list START -->
+      <section class="pt-0">
+        <div class="container">
+          <div class="row">
+            <!-- Left sidebar START -->
+            <aside class="col-xl-4 col-xxl-3">
+              <!-- Responsive offcanvas body START -->
+              <div class="offcanvas-xl offcanvas-end" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+                <!-- Offcanvas body -->
+                <div class="offcanvas-body flex-column p-3 p-xl-0">
+                  <form method="GET" class="rounded-3 shadow">
+                    {% csrf_token %}
+                    <!-- Popular filters START -->
+                    <div class="card card-body rounded-0 rounded-top p-4">
+                      <!-- Title -->
+                      <h6 class="mb-2">Filters</h6>
+                      <!-- Popular filters group -->
+                      <div class="col-12">
+                        <!-- Checkbox -->
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="form-check">
+                            <input name="fl_type" class="form-check-input" type="radio" id="popolarType1" value="International - Connecting" />
+                            <label class="form-check-label" for="popolarType1">Connecting</label>
+                          </div>
+                        </div>
+                        <!-- Checkbox -->
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="form-check">
+                            <input name="fl_type" class="form-check-input" type="radio" id="popolarType2" value="non-con" />
+                            <label class="form-check-label" for="popolarType2">Non-Connecting</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Popular filters END -->
+
+                    <hr class="my-0" />
+                    <!-- Divider -->
+
+                    <!-- Price START -->
+                    <div class="card card-body rounded-0 p-4">
+                      <!-- Title -->
+                      <h6 class="mb-2">Price</h6>
+                      <!-- Price group -->
+                      <div class="position-relative">
+                        <div class="noui-wrapper">
+                          <div class="d-flex justify-content-between">
+                            <input name="min_fare" type="text" class="text-body input-with-range-min" />
+                            <input name="max_fare" type="text" class="text-body input-with-range-max" />
+                          </div>
+                          <div class="noui-slider-range mt-2" data-range-min="1000" data-range-max="100000" data-range-selected-min="1000" data-range-selected-max="50000"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Price END -->
+
+                    <!-- Preferred Airline START -->
+                    <div class="card card-body rounded-0 p-4">
+                      <!-- Title -->
+                      <h6 class="mb-2">Select Preferred Airline</h6>
+                      <!-- Preferred Airline group -->
+                      <div class="col-12">
+                        <!-- Checkbox -->
+                        <div class="form-check">
+                          <input name="preferred_airlines" class="form-check-input" type="radio" value="BL" id="airlineType1" />
+                          <label class="form-check-label" for="airlineType1"> <img src=" {% static 'assets/images/element/12.svg' %} " class="h-15px fa-fw me-2" alt="" />Blogzine </label>
+                        </div>
+                        <!-- Checkbox -->
+                        <div class="form-check">
+                          <input name="preferred_airlines" class="form-check-input" type="radio" value="WIZ" id="airlineType2" />
+                          <label class="form-check-label" for="airlineType2"> <img src=" {% static 'assets/images/element/13.svg' %} " class="h-15px fa-fw me-2" alt="" />Wizixo </label>
+                        </div>
+                        <!-- Checkbox -->
+                        <div class="form-check">
+                          <input name="preferred_airlines" class="form-check-input" type="radio" value="FO" id="airlineType3" />
+                          <label class="form-check-label" for="airlineType3"> <img src=" {% static 'assets/images/element/14.svg' %} " class="h-15px fa-fw me-2" alt="" />Folio </label>
+                        </div>
+                        <!-- Checkbox -->
+                        <div class="form-check">
+                          <input name="preferred_airlines" class="form-check-input" type="radio" value="FLY" id="airlineType4" />
+                          <label class="form-check-label" for="airlineType4"> <img src=" {% static 'assets/images/element/15.svg' %} " class="h-15px fa-fw me-2" alt="" />Flyzo </label>
+                        </div>
+                        <div class="form-check">
+                          <input name="preferred_airlines" class="form-check-input" type="radio" value="TP" id="airlineType4" />
+                          <label class="form-check-label" for="airlineType4"> <img src=" {% static 'assets/images/element/09.svg' %} " class="h-15px fa-fw me-2" alt="" />Tulip </label>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Preferred Airline END -->
+
+                    <hr class="my-0" />
+                    <!-- Divider -->
+                    <div>
+                      <input type="hidden" name="travelers" value="{{ travelers.travelers }}" />
+                      <button type="submit" class="btn btn-primary mb-n4" href="flight-list">Filter Flights <i class="bi bi-arrow-right ps-3"></i></button>
+                    </div>
+                  </form>
+                  <!-- Form End -->
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-between p-2 p-xl-0 mt-xl-4"></div>
+              </div>
+              <!-- Responsive offcanvas body END -->
+            </aside>
+            <!-- Left sidebar END -->
+
+            <!-- Main content START -->
+            <div class="col-xl-8 col-xxl-9">
+              <div class="vstack gap-4">
+                <!-- Ticket item START -->
+                {% for flight in flights %}
+
+                <div class="card border">
+                  <!-- Card header -->
+                  <div class="card-header d-sm-flex justify-content-sm-between align-items-center">
+                    <!-- Airline Name -->
+                    <div class="d-flex align-items-center mb-2 mb-sm-0">
+                      {% if flight.AL_Code == 'FLY' %}
+                      <img src=" {% static 'assets/images/element/15.svg' %}" class="w-30px me-2" alt="" />
+                      <h6 class="fw-normal mb-0">FlyZo International ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                      {% elif flight.AL_Code == 'TP' %}
+                      <img src=" {% static 'assets/images/element/09.svg' %}" class="w-30px me-2" alt="" />
+                      <h6 class="fw-normal mb-0">Tulip Airlines ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                      {% elif flight.AL_Code == 'BL' %}
+                      <img src=" {% static 'assets/images/element/12.svg' %}" class="w-30px me-2" alt="" />
+                      <h6 class="fw-normal mb-0">Blogzine Air ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                      {% elif flight.AL_Code == 'FO' %}
+                      <img src=" {% static 'assets/images/element/14.svg' %}" class="w-30px me-2" alt="" />
+                      <h6 class="fw-normal mb-0">Folio Air ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                      {% elif flight.AL_Code == 'WIZ' %}
+                      <img src=" {% static 'assets/images/element/13.svg' %}" class="w-30px me-2" alt="" />
+                      <h6 class="fw-normal mb-0">Wizixo Air ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- Card body -->
+                  <div class="card-body p-4 pb-0">
+                    <!-- Ticket item START -->
+                    <div class="row g-4">
+                      <!-- Airport detail -->
+                      <div class="col-sm-4 col-md-3">
+                        <h4>{{ flight.DEP_DT|date:"D d M" }}</h4>
+                        <p class="mb-0">BLR - Terminal 1</p>
+                      </div>
+
+                      <!-- Time -->
+                      <div class="col-sm-4 col-md-3 my-sm-auto text-center">
+                        <!-- Time -->
+                        <h5>{{ flight.Duration }}min</h5>
+                        <div class="position-relative my-4">
+                          <!-- Line -->
+                          <hr class="bg-primary opacity-5 position-relative" />
+                          <!-- Icon -->
+                          <div class="icon-md bg-primary text-white rounded-circle position-absolute top-50 start-50 translate-middle">
+                            <i class="fa-solid fa-fw fa-plane rtl-flip"></i>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Airport detail -->
+                      <div class="col-sm-4 col-md-3">
+                        <h4>{{ flight.ARR_DT|date:"D d M" }}</h4>
+                        <p class="mb-0">{{ flight.ARR_AP }} - Terninal 1</p>
+                      </div>
+
+                      <!-- Price -->
+                      <div class="col-md-3 text-md-end">
+                        <h4>₹{{ flight.Fare }}</h4>
+                        <a href="flight-detail/{{ flight.FL_ID }}/{{ travelers.travelers }}/" class="btn btn-dark mb-0 mb-sm-2">Book Now</a>
+                        <button class="btn btn-link text-decoration-underline p-0 mb-0" data-bs-toggle="modal" data-bs-target="#{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}">
+                          <i class="bi bi-eye-fill me-1"></i>Flight Details
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Ticket item END -->
+                  </div>
+
+                  <!-- Card footer -->
+                  <div class="card-footer pt-4">
+                    <ul class="list-inline bg-light rounded-2 d-sm-flex text-center justify-content-sm-between mb-0 px-4 py-2">
+                      <li class="list-inline-item text-danger">{{ flight.seats_left }} Seats Left</li>
+                      <li class="list-inline-item text-danger">{{ flight.FL_TYPE }}</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {% empty %}
+                <h5>No Flights available, Please try again later.</h5>
+                {% endfor %}
+                <!-- Ticket item END -->
+              </div>
+            </div>
+            <!-- Main content END -->
+          </div>
+          <!-- Row END -->
+        </div>
+      </section>
+      <!-- Flight list END -->
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
+
+    <!-- Footer START -->
+    <footer class="bg-dark p-3">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Widget -->
+          <div class="col-md-4">
+            <div class="text-center text-md-start mb-3 mb-md-0">
+              <a href="index"> <img class="h-30px" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" /> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Footer END -->
+
+    <!-- Flight detail modal START -->
+    {% for flight in flights %} {% if flight.FL_TYPE == 'International - Connecting' %}
+    <div class="modal fade" id="{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <!-- Title -->
+          <div class="modal-header">
+            <h5 class="modal-title">Flight Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <!-- Body -->
+          <div class="modal-body p-3">
+            <!-- Tabs START -->
+            <ul class="nav nav-pills nav-justified nav-responsive bg-primary bg-opacity-10 rounded p-2 mb-3" id="flight-pills-tab" role="tablist">
+              <!-- Tab item -->
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link active mb-0"
+                  id="flight-info"
+                  data-bs-toggle="pill"
+                  data-bs-target="#flight-info-tab{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}"
+                  type="button"
+                  role="tab"
+                  aria-controls="flight-info-tab"
+                  aria-selected="true"
+                >
+                  Flight Information
+                </button>
+              </li>
+              <!-- Tab item -->
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link mb-0"
+                  id="flight-fare"
+                  data-bs-toggle="pill"
+                  data-bs-target="#flight-fare-tab{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}"
+                  type="button"
+                  role="tab"
+                  aria-controls="flight-fare-tab"
+                  aria-selected="false"
+                >
+                  Fare Detail
+                </button>
+              </li>
+              <!-- Tab item -->
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link mb-0"
+                  id="flight-baggage"
+                  data-bs-toggle="pill"
+                  data-bs-target="#flight-baggage-tab{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}"
+                  type="button"
+                  role="tab"
+                  aria-controls="flight-baggage-tab"
+                  aria-selected="false"
+                >
+                  Baggage Rules
+                </button>
+              </li>
+            </ul>
+            <!-- Tabs END -->
+
+            <!-- Tab content START -->
+            <div class="tab-content mb-0" id="flight-pills-tabContent">
+              <!-- Content item START -->
+              <div class="tab-pane fade show active" id="flight-info-tab{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}" role="tabpanel" aria-labelledby="flight-info">
+                <div class="card border">
+                  <!-- Card header -->
+                  <div class="card-header">
+                    <div class="d-sm-flex justify-content-sm-between align-items-center">
+                      <!-- Airline Name -->
+                      <div class="d-flex mb-2 mb-sm-0">
+                        {% if flight.AL_Code == 'FLY' %}
+                        <img src=" {% static 'assets/images/element/15.svg' %}" class="w-30px me-2" alt="" />
+                        <h6 class="fw-normal mb-0">FlyZo International ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                        {% elif flight.AL_Code == 'TP' %}
+                        <img src=" {% static 'assets/images/element/09.svg' %}" class="w-30px me-2" alt="" />
+                        <h6 class="fw-normal mb-0">Tulip Airlines ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                        {% elif flight.AL_Code == 'BL' %}
+                        <img src=" {% static 'assets/images/element/12.svg' %}" class="w-30px me-2" alt="" />
+                        <h6 class="fw-normal mb-0">Blogzine Air ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                        {% elif flight.AL_Code == 'FO' %}
+                        <img src=" {% static 'assets/images/element/14.svg' %}" class="w-30px me-2" alt="" />
+                        <h6 class="fw-normal mb-0">Folio Air ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                        {% elif flight.AL_Code == 'WIZ' %}
+                        <img src=" {% static 'assets/images/element/13.svg' %}" class="w-30px me-2" alt="" />
+                        <h6 class="fw-normal mb-0">Wizixo Air ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Card body START -->
+                  <div class="card-body p-4">
+                    <!-- Ticket item START -->
+                    <div class="row g-4">
+                      <!-- Airport detail -->
+                      <div class="col-sm-4">
+                        <!-- Title -->
+                        <h4>BLR</h4>
+                        <h6 class="mb-0">{{ flight.DEP_DT|date:"D d M" }}</h6>
+                        <p class="mb-0">Kempegowda INT Airport</p>
+                      </div>
+
+                      <!-- Time -->
+                      <div class="col-sm-4 my-sm-auto text-center">
+                        <!-- Time -->
+                        <div class="position-relative my-4">
+                          <!-- Line -->
+                          <hr class="bg-primary opacity-5 position-relative" />
+                          <!-- Icon -->
+                          <div class="icon-md bg-primary text-white rounded-circle position-absolute top-50 start-50 translate-middle">
+                            <i class="fa-solid fa-fw fa-plane rtl-flip"></i>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Airport detail -->
+                      <div class="col-sm-4">
+                        <!-- Title -->
+                        {% for airport in airports %} {% if flight.INT_AP == airport.Unique_code %}
+                        <h4>{{ flight.INT_AP }}</h4>
+                        <h6 class="mb-0">{{ flight.INT_ARR_DT|date:"D d M" }}</h6>
+                        <p class="mb-0">{{ airport.Name }}, {{ airport.City }}, {{ airport.Country }}</p>
+                        {% endif %}{% endfor %}
+                      </div>
+                    </div>
+                    <!-- Ticket item END -->
+
+                    <!-- Divider -->
+                    <div class="bg-light text-center fw-normal rounded-2 mt-3 mb-4 p-2">Change of planes: {{ flight.Layover }}mins Layover</div>
+
+                    <!-- Ticket item START -->
+                    <div class="row g-4">
+                      <!-- Airport detail -->
+                      <div class="col-sm-4">
+                        <!-- Title -->
+                        {% for airport in airports %} {% if flight.INT_AP == airport.Unique_code %}
+                        <h4>{{ flight.INT_AP }}</h4>
+                        <h6 class="mb-0">{{ flight.INT_DEP_DT|date:"D d M" }}</h6>
+                        <p class="mb-0">{{ airport.Name }}, {{ airport.City }}, {{ airport.Country }}</p>
+                        {% endif %} {% endfor %}
+                      </div>
+
+                      <!-- Time -->
+                      <div class="col-sm-4 my-sm-auto text-center">
+                        <!-- Time -->
+                        <div class="position-relative my-4">
+                          <!-- Line -->
+                          <hr class="bg-primary opacity-5 position-relative" />
+                          <!-- Icon -->
+                          <div class="icon-md bg-primary text-white rounded-circle position-absolute top-50 start-50 translate-middle">
+                            <i class="fa-solid fa-fw fa-plane rtl-flip"></i>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Airport detail -->
+                      <div class="col-sm-4">
+                        <!-- Title -->
+                        {% for airport in airports %} {% if flight.ARR_AP == airport.Unique_code %}
+                        <h4>{{ flight.ARR_AP }}</h4>
+                        <h6 class="mb-0">{{ flight.ARR_DT }}</h6>
+                        <p class="mb-0">{{ airport.Name }}, {{ airport.City }}, {{ airport.Country }}</p>
+                        {% endif %}{% endfor %}
+                      </div>
+                    </div>
+                    <!-- Ticket item END -->
+                  </div>
+                  <!-- Card body END -->
+                </div>
+              </div>
+              <!-- Content item END -->
+
+              <!-- Content item START -->
+              <div class="tab-pane fade" id="flight-fare-tab{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}" role="tabpanel" aria-labelledby="flight-fare">
+                <div class="card card-body">
+                  <!-- Table START -->
+                  <div class="table-responsive-lg">
+                    <table class="table caption-bottom mb-0">
+                      <!-- Caption -->
+                      <caption class="pb-0">
+                        *From The Date Of Departure
+                      </caption>
+                      <!-- Table head -->
+                      <thead class="table-dark">
+                        <tr>
+                          <th scope="col" class="border-0 rounded-start">Base Fare</th>
+                          <th scope="col" class="border-0">Taxes and Fees</th>
+                          <th scope="col" class="border-0 rounded-end">Total Fees</th>
+                        </tr>
+                      </thead>
+                      <!-- Table body -->
+                      <tbody>
+                        <tr>
+                          <td>₹{{ flight.Fare|add:"-1000" }}</td>
+                          <td>₹1,000</td>
+                          <td><h5 class="mb-0">₹{{ flight.Fare }}</h5></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Table END -->
+                </div>
+              </div>
+              <!-- Content item END -->
+
+              <!-- Content item START -->
+              <div class="tab-pane fade" id="flight-baggage-tab{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}" role="tabpanel" aria-labelledby="flight-baggage">
+                <div class="card border">
+                  <!-- Card header -->
+                  <div class="card-header d-flex align-items-center border-bottom">
+                    <!-- Title -->
+                    {% if flight.AL_Code == 'FLY' %}
+                    <img src=" {% static 'assets/images/element/15.svg' %}" class="h-20px me-1" alt="" />
+                    {% elif flight.AL_Code == 'TP' %}
+                    <img src=" {% static 'assets/images/element/09.svg' %}" class="h-20px me-1" alt="" />
+                    {% elif flight.AL_Code == 'BL' %}
+                    <img src=" {% static 'assets/images/element/12.svg' %}" class="h-20px me-1" alt="" />
+                    {% elif flight.AL_Code == 'FO' %}
+                    <img src=" {% static 'assets/images/element/14.svg' %}" class="h-20px me-1" alt="" />
+                    {% elif flight.AL_Code == 'WIZ' %}
+                    <img src=" {% static 'assets/images/element/13.svg' %}" class="h-20px me-1" alt="" />
+                    {% endif %}
+                    <h5 class="card-title mb-0">BLR - {{ flight.ARR_AP }}</h5>
+                  </div>
+
+                  <!-- Card body -->
+                  <div class="card-body">
+                    <!-- Table START -->
+                    <div class="table-responsive-lg">
+                      <table class="table caption-bottom mb-0">
+                        <!-- Caption -->
+                        <caption class="pb-0">
+                          *1PC = 23KG
+                        </caption>
+                        <!-- Table head -->
+                        <thead class="table-dark">
+                          <tr>
+                            <th scope="col" class="border-0 rounded-start">Baggage Type</th>
+                            <th scope="col" class="border-0">Check In</th>
+                            <th scope="col" class="border-0 rounded-end">Cabin</th>
+                          </tr>
+                        </thead>
+                        <!-- Table body -->
+                        <tbody class="border-top-0">
+                          <tr>
+                            <td>Adult</td>
+                            <td>2 PC</td>
+                            <td>7 Kg</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- Table END -->
+                  </div>
+                </div>
+              </div>
+              <!-- Content item END -->
+            </div>
+            <!-- Tab content END -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Flight detail modal END -->
+
+    {% else %}
+    <div class="modal fade" id="{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <!-- Title -->
+          <div class="modal-header">
+            <h5 class="modal-title">Flight Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <!-- Body -->
+          <div class="modal-body p-3">
+            <!-- Tabs START -->
+            <ul class="nav nav-pills nav-justified nav-responsive bg-primary bg-opacity-10 rounded p-2 mb-3" id="flight-pills-tab" role="tablist">
+              <!-- Tab item -->
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link active mb-0"
+                  id="flight-info"
+                  data-bs-toggle="pill"
+                  data-bs-target="#flight-info-tab{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}"
+                  type="button"
+                  role="tab"
+                  aria-controls="flight-info-tab"
+                  aria-selected="true"
+                >
+                  Flight Information
+                </button>
+              </li>
+              <!-- Tab item -->
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link mb-0"
+                  id="flight-fare"
+                  data-bs-toggle="pill"
+                  data-bs-target="#flight-fare-tab{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}"
+                  type="button"
+                  role="tab"
+                  aria-controls="flight-fare-tab"
+                  aria-selected="false"
+                >
+                  Fare Detail
+                </button>
+              </li>
+              <!-- Tab item -->
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link mb-0"
+                  id="flight-baggage"
+                  data-bs-toggle="pill"
+                  data-bs-target="#flight-baggage-tab{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}"
+                  type="button"
+                  role="tab"
+                  aria-controls="flight-baggage-tab"
+                  aria-selected="false"
+                >
+                  Baggage Rules
+                </button>
+              </li>
+            </ul>
+            <!-- Tabs END -->
+
+            <!-- Tab content START -->
+            <div class="tab-content mb-0" id="flight-pills-tabContent">
+              <!-- Content item START -->
+              <div class="tab-pane fade show active" id="flight-info-tab{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}" role="tabpanel" aria-labelledby="flight-info">
+                <div class="card border">
+                  <!-- Card header -->
+                  <div class="card-header">
+                    <div class="d-sm-flex justify-content-sm-between align-items-center">
+                      <!-- Airline Name -->
+                      <div class="d-flex mb-2 mb-sm-0">
+                        {% if flight.AL_Code == 'FLY' %}
+                        <img src=" {% static 'assets/images/element/15.svg' %}" class="w-30px me-2" alt="" />
+                        <h6 class="fw-normal mb-0">FlyZo International ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                        {% elif flight.AL_Code == 'TP' %}
+                        <img src=" {% static 'assets/images/element/09.svg' %}" class="w-30px me-2" alt="" />
+                        <h6 class="fw-normal mb-0">Tulip Airlines ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                        {% elif flight.AL_Code == 'BL' %}
+                        <img src=" {% static 'assets/images/element/12.svg' %}" class="w-30px me-2" alt="" />
+                        <h6 class="fw-normal mb-0">Blogzine Air ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                        {% elif flight.AL_Code == 'FO' %}
+                        <img src=" {% static 'assets/images/element/14.svg' %}" class="w-30px me-2" alt="" />
+                        <h6 class="fw-normal mb-0">Folio Air ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                        {% elif flight.AL_Code == 'WIZ' %}
+                        <img src=" {% static 'assets/images/element/13.svg' %}" class="w-30px me-2" alt="" />
+                        <h6 class="fw-normal mb-0">Wizixo Air ({{ flight.AL_Code }} - {{ flight.AircraftID }})</h6>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Card body START -->
+                  <div class="card-body p-4">
+                    <!-- Ticket item START -->
+                    <div class="row g-4">
+                      <!-- Airport detail -->
+                      <div class="col-sm-4">
+                        <!-- Title -->
+                        <h4>BLR</h4>
+                        <h6 class="mb-0">{{ flight.DEP_DT|date:"D d M" }}</h6>
+                        <p class="mb-0">Kempegowda INT Airport</p>
+                      </div>
+
+                      <!-- Time -->
+                      <div class="col-sm-4 my-sm-auto text-center">
+                        <!-- Time -->
+                        <div class="position-relative my-4">
+                          <!-- Line -->
+                          <hr class="bg-primary opacity-5 position-relative" />
+                          <!-- Icon -->
+                          <div class="icon-md bg-primary text-white rounded-circle position-absolute top-50 start-50 translate-middle">
+                            <i class="fa-solid fa-fw fa-plane rtl-flip"></i>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Airport detail -->
+                      <div class="col-sm-4">
+                        <!-- Title -->
+                        {% for airport in airports %} {% if flight.ARR_AP == airport.Unique_code %}
+                        <h4>{{ flight.ARR_AP }}</h4>
+                        <h6 class="mb-0">{{ flight.ARR_DT|date:"D d M" }}</h6>
+                        <p class="mb-0">{{ airport.Name }}, {{ airport.City }}, {{ airport.Country }}</p>
+                        {% endif %}{% endfor %}
+                      </div>
+                    </div>
+                    <!-- Ticket item END -->
+                  </div>
+                  <!-- Card body END -->
+                </div>
+              </div>
+              <!-- Content item END -->
+
+              <!-- Content item START -->
+              <div class="tab-pane fade" id="flight-fare-tab{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}" role="tabpanel" aria-labelledby="flight-fare">
+                <div class="card card-body">
+                  <!-- Table START -->
+                  <div class="table-responsive-lg">
+                    <table class="table caption-bottom mb-0">
+                      <!-- Caption -->
+                      <caption class="pb-0">
+                        *From The Date Of Departure
+                      </caption>
+                      <!-- Table head -->
+                      <thead class="table-dark">
+                        <tr>
+                          <th scope="col" class="border-0 rounded-start">Base Fare</th>
+                          <th scope="col" class="border-0">Taxes and Fees</th>
+                          <th scope="col" class="border-0 rounded-end">Total Fees</th>
+                        </tr>
+                      </thead>
+                      <!-- Table body -->
+                      <tbody>
+                        <tr>
+                          <td>₹{{ flight.Fare|add:"-1000" }}</td>
+                          <td>₹1,000</td>
+                          <td><h5 class="mb-0">₹{{ flight.Fare }}</h5></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Table END -->
+                </div>
+              </div>
+              <!-- Content item END -->
+
+              <!-- Content item START -->
+              <div class="tab-pane fade" id="flight-baggage-tab{{ flight.AL_Code }}{{ flight.FL_ID }}{{ flight.ARR_AP }}" role="tabpanel" aria-labelledby="flight-baggage">
+                <div class="card border">
+                  <!-- Card header -->
+                  <div class="card-header d-flex align-items-center border-bottom">
+                    <!-- Title -->
+                    {% if flight.AL_Code == 'FLY' %}
+                    <img src=" {% static 'assets/images/element/15.svg' %}" class="h-20px me-1" alt="" />
+                    {% elif flight.AL_Code == 'TP' %}
+                    <img src=" {% static 'assets/images/element/09.svg' %}" class="h-20px me-1" alt="" />
+                    {% elif flight.AL_Code == 'BL' %}
+                    <img src=" {% static 'assets/images/element/12.svg' %}" class="h-20px me-1" alt="" />
+                    {% elif flight.AL_Code == 'FO' %}
+                    <img src=" {% static 'assets/images/element/14.svg' %}" class="h-20px me-1" alt="" />
+                    {% elif flight.AL_Code == 'WIZ' %}
+                    <img src=" {% static 'assets/images/element/13.svg' %}" class="h-20px me-1" alt="" />
+                    {% endif %}
+                    <h5 class="card-title mb-0">BLR - {{ flight.ARR_AP }}</h5>
+                  </div>
+
+                  <!-- Card body -->
+                  <div class="card-body">
+                    <!-- Table START -->
+                    <div class="table-responsive-lg">
+                      <table class="table caption-bottom mb-0">
+                        <!-- Caption -->
+                        <caption class="pb-0">
+                          *1PC = 23KG
+                        </caption>
+                        <!-- Table head -->
+                        <thead class="table-dark">
+                          <tr>
+                            <th scope="col" class="border-0 rounded-start">Baggage Type</th>
+                            <th scope="col" class="border-0">Check In</th>
+                            <th scope="col" class="border-0 rounded-end">Cabin</th>
+                          </tr>
+                        </thead>
+                        <!-- Table body -->
+                        <tbody class="border-top-0">
+                          <tr>
+                            <td>Adult</td>
+                            <td>2 PC</td>
+                            <td>7 Kg</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- Table END -->
+                  </div>
+                </div>
+              </div>
+              <!-- Content item END -->
+            </div>
+            <!-- Tab content END -->
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %} {% endfor %}
+
+    <!-- Back to top -->
+    <div class="back-top"></div>
+
+    <!-- Bootstrap JS -->
+    <script src=" {% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %} "></script>
+
+    <!-- Vendors -->
+    <script src=" {% static 'assets/vendor/flatpickr/js/flatpickr.min.js' %} "></script>
+    <script src=" {% static 'assets/vendor/choices/js/choices.min.js' %} "></script>
+    <script src=" {% static 'assets/vendor/nouislider/nouislider.min.js' %} "></script>
+
+    <!-- ThemeFunctions -->
+    <script src=" {% static 'assets/js/functions.js' %} "></script>
+  </body>
+</html>

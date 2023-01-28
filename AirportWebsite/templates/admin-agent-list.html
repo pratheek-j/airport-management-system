@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <title>Airport Website</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Dark mode -->
+    <script type="text/javascript">
+      var theme = localStorage.getItem("data-theme");
+      var root = document.documentElement;
+      if (theme === "dark" && theme !== undefined) {
+        root.classList.add("dark-mode");
+      } else {
+        root.classList.remove("dark-mode");
+      }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href=" {% static 'assets/images/favicon.png' %} " />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link rel="stylesheet" href=" {% static 'css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap' %} " />
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/font-awesome/css/all.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/overlay-scrollbar/css/overlayscrollbars.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/choices/css/choices.min.css' %} " />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/css/style.css' %} " />
+  </head>
+
+  <body>
+    <!-- Pre loader -->
+    <div class="preloader">
+      <div class="preloader-item">
+        <div class="spinner-grow text-primary"></div>
+      </div>
+    </div>
+    <!-- **************** MAIN CONTENT START **************** -->
+    <main>
+      <!-- Sidebar START -->
+      <nav class="navbar sidebar navbar-expand-xl navbar-light">
+        <!-- Navbar brand for xl START -->
+        <div class="d-flex align-items-center">
+          <a class="navbar-brand" href="{% url 'airport-index' %}">
+            <img class="light-mode-item navbar-brand-item" src=" {% static 'assets/images/logo.svg' %} " alt="logo" />
+            <img class="dark-mode-item navbar-brand-item" src=" {% static 'assets/images/logo-light.svg' %} " alt="logo" />
+          </a>
+        </div>
+        <!-- Navbar brand for xl END -->
+
+        <div class="offcanvas offcanvas-start flex-row custom-scrollbar h-100" data-bs-backdrop="true" tabindex="-1" id="offcanvasSidebar">
+          <div class="offcanvas-body sidebar-content d-flex flex-column pt-4">
+            <!-- Sidebar menu START -->
+            <ul class="navbar-nav flex-column" id="navbar-sidebar">
+              <!-- Menu item -->
+              <li class="nav-item"><a href="admin-dashboard" class="nav-link">Dashboard</a></li>
+
+              <!-- Title -->
+              <li class="nav-item ms-2 my-2">Pages</li>
+
+              <!-- Menu item -->
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#collapseguest" role="button" aria-expanded="false" aria-controls="collapseguest"> Employees </a>
+                <!-- Submenu -->
+                <ul class="nav collapse flex-column" id="collapseguest" data-bs-parent="#navbar-sidebar">
+                  <li class="nav-item"><a class="nav-link" href="admin-guest-list">Employee List</a></li>
+                </ul>
+              </li>
+
+              <!-- Menu item -->
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#collapseagent" role="button" aria-expanded="true" aria-controls="collapseagent"> Pilots </a>
+                <!-- Submenu -->
+                <ul class="nav collapse flex-column show" id="collapseagent" data-bs-parent="#navbar-sidebar">
+                  <li class="nav-item"><a class="nav-link active" href="admin-agent-list">Pilot List</a></li>
+                </ul>
+              </li>
+            </ul>
+            <!-- Sidebar menu end -->
+
+            <!-- Sidebar footer START -->
+            <div class="d-flex align-items-center justify-content-between text-primary-hover mt-auto p-3">
+              <a class="h6 fw-light mb-0 text-body" href="sign-in" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Sign out">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+              </a>
+            </div>
+            <!-- Sidebar footer END -->
+          </div>
+        </div>
+      </nav>
+      <!-- Sidebar END -->
+
+      <!-- Page content START -->
+      <div class="page-content">
+        <!-- Top bar START -->
+        <nav class="navbar top-bar navbar-light py-0 py-xl-3">
+          <div class="container-fluid p-0">
+            <div class="d-flex align-items-center w-100">
+              <!-- Logo START -->
+              <div class="d-flex align-items-center d-xl-none">
+                <a class="navbar-brand" href="index">
+                  <img class="navbar-brand-item h-40px" src=" {% static 'assets/images/logo-icon.svg' %}" alt="" />
+                </a>
+              </div>
+              <!-- Logo END -->
+
+              <!-- Top bar right START -->
+              <ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+                <!-- Dark mode -->
+                <li class="nav-item modeswitch-mini ms-3" id="darkModeSwitch">
+                  <div class="modeswitch-mini-item">
+                    <div class="modeswitch-mini-icon"></div>
+                  </div>
+                </li>
+              </ul>
+              <!-- Top bar right END -->
+            </div>
+          </div>
+        </nav>
+        <!-- Top bar END -->
+
+        <!-- Page main content START -->
+        <div class="page-content-wrapper p-xxl-4">
+          <!-- Title -->
+          <div class="row">
+            <div class="col-12 mb-4 mb-sm-5">
+              <div class="d-sm-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-3 mb-sm-0">Pilot List</h1>
+              </div>
+            </div>
+          </div>
+
+          <!-- agent list START -->
+          <div class="row g-4">
+            {% for pilot in pilots %}
+            <!-- Card item -->
+            <div class="col-md-6 col-lg-4 col-xxl-3">
+              <div class="card border h-100">
+                <!-- Card body -->
+                <div class="card-body text-center pb-0">
+                  <!-- Avatar Image -->
+                  <br />
+                  <!-- Title -->
+                  <h5 class="mb-1">{{ pilot.FName }} {{ pilot.LName }}</h5>
+                  <small><i class="bi bi-geo-alt me-1"></i>{{ pilot.Address }}</small>
+                  <!-- Info and rating -->
+                </div>
+                <!-- card footer -->
+                <div class="card-footer d-flex gap-3 align-items-center">
+                  <form method="POST" action="admin-agent-detail">
+                    {% csrf_token %}
+                    <input type="hidden" name="eid" value="{{ pilot.EID }}" />
+                    <button type="submit" class="btn btn-sm btn-primary-soft mb-0 w-100">View detail</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <!-- agent list END -->
+        </div>
+        <!-- Page main content END -->
+      </div>
+      <!-- Page content END -->
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
+
+    <!-- Bootstrap JS -->
+    <script src=" {% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %} "></script>
+
+    <!-- Vendor -->
+    <script src=" {% static 'assets/vendor/overlay-scrollbar/js/overlayscrollbars.min.js' %} "></script>
+    <script src=" {% static 'assets/vendor/choices/js/choices.min.js' %} "></script>
+
+    <!-- ThemeFunctions -->
+    <script src=" {% static 'assets/js/functions.js' %} "></script>
+  </body>
+</html>

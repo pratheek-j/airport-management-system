@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <title>Airport Website</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Dark mode -->
+    <script type="text/javascript">
+      var theme = localStorage.getItem("data-theme");
+      var root = document.documentElement;
+      if (theme === "dark" && theme !== undefined) {
+        root.classList.add("dark-mode");
+      } else {
+        root.classList.remove("dark-mode");
+      }
+    </script>
+
+    <script type="text/javascript">
+      history.pushState(null, null, location.href);
+      window.onpopstate = function () {
+        history.go(1);
+      };
+    </script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href=" {% static 'assets/images/favicon.png' %} " />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link rel="stylesheet" href=" {% static 'css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap' %} " />
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/font-awesome/css/all.min.css' %} " />
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %} " />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href=" {% static 'assets/css/style.css' %} " />
+  </head>
+
+  <body>
+    <!-- Pre loader -->
+    <div class="preloader">
+      <div class="preloader-item">
+        <div class="spinner-grow text-primary"></div>
+      </div>
+    </div>
+    <!-- **************** MAIN CONTENT START **************** -->
+    <main>
+      <!-- =======================
+Main Content START -->
+      <section class="vh-xxl-100">
+        <div class="container h-100 d-flex px-0 px-sm-4">
+          <div class="row justify-content-center align-items-center m-auto">
+            <div class="col-12">
+              <div class="bg-mode shadow rounded-3 overflow-hidden">
+                <div class="row g-0">
+                  <!-- Vector Image -->
+                  <div class="col-lg-6 d-md-flex align-items-center order-2 order-lg-1">
+                    <div class="p-3 p-lg-5">
+                      <img src=" {% static 'assets/images/element/signin.svg' %} " alt="" />
+                    </div>
+                    <!-- Divider -->
+                    <div class="vr opacity-1 d-none d-lg-block"></div>
+                  </div>
+
+                  <!-- Information -->
+                  <div class="col-lg-6 order-1">
+                    <div class="p-4 p-sm-6">
+                      <!-- Logo -->
+                      <a href="index">
+                        <img class="h-50px mb-4" src=" {% static 'assets/images/logo-icon.svg' %} " alt="logo" />
+                      </a>
+                      <!-- Title -->
+                      <h1 class="mb-2 h3">Create new account</h1>
+                      <p class="mb-0">Already a member?<a href="sign-in"> Log in</a></p>
+
+                      <!-- Form START -->
+                      <form class="mt-4 text-start" method="POST" action="">
+                        {% csrf_token %}
+                        <!-- username -->
+                        <div class="mb-3">
+                          <label class="form-label">Enter username</label>
+                          <input name="username" type="text" class="form-control" required />
+                        </div>
+
+                        <div>
+                          <label class="form-label">Full name</label>
+                          <div class="input-group">
+                            <input name="fname" type="text" class="form-control" placeholder="First name" required />
+                            <input name="lname" type="text" class="form-control" placeholder="Last name" required />
+                          </div>
+                        </div>
+                        <br />
+                        <!-- Mobile -->
+                        <div class="">
+                          <label class="form-label">Mobile number</label>
+                          <input type="text" class="form-control" value="" placeholder="Enter your mobile number"/>
+                        </div>
+                        <br />
+
+                        <!-- Password -->
+                        <div class="mb-3 position-relative">
+                          <label class="form-label">Enter password</label>
+                          <input name="password" class="form-control fakepassword" type="password" id="psw-input" required/>
+                          <span class="position-absolute top-50 end-0 translate-middle-y p-0 mt-3">
+                            <i class="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
+                          </span>
+                        </div>
+                        <!-- Confirm Password -->
+                        <div class="mb-3">
+                          <label class="form-label">Confirm Password</label>
+                          <input type="password" class="form-control" required/>
+                        </div>
+                        <!-- Remember me -->
+                        <div class="mb-3">
+                          <input type="checkbox" class="form-check-input" id="rememberCheck" />
+                          <label class="form-check-label" for="rememberCheck">Keep me signed in</label>
+                        </div>
+                        <!-- Button -->
+                        <div>
+                          <button type="submit" class="btn btn-primary w-100 mb-0">Sign up</button>
+                        </div>
+                      </form>
+                      <!-- Form END -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- =======================
+Main Content END -->
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
+
+    <!-- Back to top -->
+    <div class="back-top"></div>
+
+    <!-- Bootstrap JS -->
+    <script src=" {% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %} "></script>
+
+    <!-- ThemeFunctions -->
+    <script src=" {% static 'assets/js/functions.js' %} "></script>
+  </body>
+</html>
